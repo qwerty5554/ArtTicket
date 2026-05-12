@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"artticket-backend/internal/infrastructure"
-	loggerservice "github.com/qwerty5554/shared/logger"
+	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"

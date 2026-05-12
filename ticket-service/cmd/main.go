@@ -13,7 +13,7 @@ import (
 	"artticket-backend/internal/infrastructure"
 	"artticket-backend/internal/routes"
 
-	loggerservice "github.com/qwerty5554/shared/logger"
+	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

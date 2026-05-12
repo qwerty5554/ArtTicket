@@ -7,7 +7,7 @@ import (
 	"artticket-backend/internal/entities"
 	"artticket-backend/internal/infrastructure"
 
-	loggerservice "github.com/qwerty5554/shared/logger"
+	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	"github.com/stretchr/testify/assert"
 )

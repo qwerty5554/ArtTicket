@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	jwtservice "github.com/qwerty5554/shared/jwt"
+	jwtservice "github.com/qwerty5554/ArtTicket/shared/jwt"
 
 	"github.com/gin-gonic/gin"
 )

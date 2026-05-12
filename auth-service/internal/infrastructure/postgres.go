@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	loggerservice "github.com/qwerty5554/shared/logger"
+	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	_ "github.com/lib/pq"
 )

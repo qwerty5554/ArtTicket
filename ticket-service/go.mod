@@ -8,7 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/lib/pq v1.12.3
-	github.com/qwerty5554/shared v0.0.0-00010101000000-000000000000
+	github.com/qwerty5554/ArtTicket/shared v0.0.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.1
@@ -66,4 +66,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/qwerty5554/shared => ../shared
+replace github.com/qwerty5554/ArtTicket/shared => ../shared

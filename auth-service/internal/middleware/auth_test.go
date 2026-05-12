@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	jwtservice "github.com/qwerty5554/shared/jwt"
+	jwtservice "github.com/qwerty5554/ArtTicket/shared/jwt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"

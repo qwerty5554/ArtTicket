@@ -6,7 +6,7 @@ import (
 
 	"artticket-backend/internal/entities"
 	"artticket-backend/internal/repositories"
-	loggerservice "github.com/qwerty5554/shared/logger"
+	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	"fmt"
 	"github.com/gin-gonic/gin"

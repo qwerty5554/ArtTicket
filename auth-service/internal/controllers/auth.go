@@ -6,8 +6,8 @@ import (
 	"artticket-backend/internal/entities"
 	"artticket-backend/internal/repositories"
 
-	jwtservice "github.com/qwerty5554/shared/jwt"
-	loggerservice "github.com/qwerty5554/shared/logger"
+	jwtservice "github.com/qwerty5554/ArtTicket/shared/jwt"
+	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
