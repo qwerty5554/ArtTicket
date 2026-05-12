@@ -71,3 +71,20 @@ func GetMyTickets(c *gin.Context) {
 
 	c.JSON(http.StatusOK, tickets)
 }
+
+func GetAdminBookings(c *gin.Context) {
+
+	tickets, err :=
+		repositories.GetAllTicketsForAdmin()
+
+	if err != nil {
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, tickets)
+}

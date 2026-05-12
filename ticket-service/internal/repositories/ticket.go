@@ -85,7 +85,6 @@ func GetTicketsByUserID(userID int) ([]entities.Ticket, error) {
 			return nil, err
 		}
 
-		// 🔥 ДЛЯ PROFILE
 		ticket.Title = ticket.Exhibition
 		ticket.Place = ticket.Museum
 
@@ -93,6 +92,79 @@ func GetTicketsByUserID(userID int) ([]entities.Ticket, error) {
 			tickets,
 			ticket,
 		)
+	}
+
+	return tickets, nil
+}
+
+type AdminTicket struct {
+	ID          int    `json:"id"`
+	Client      string `json:"client"`
+	Email       string `json:"email"`
+	Exhibition  string `json:"exhibition"`
+	Date        string `json:"date"`
+	Time        string `json:"time"`
+	Count       int    `json:"count"`
+	Price       int    `json:"price"`
+	Status      string `json:"status"`
+}
+
+func GetAllTicketsForAdmin() ([]AdminTicket, error) {
+
+	rows, err := infrastructure.DB.Query(`
+		SELECT
+			t.id,
+			u.first_name,
+			u.last_name,
+			u.email,
+			t.exhibition,
+			t.date,
+			t.time,
+			t.count,
+			t.price,
+			t.status
+		FROM tickets t
+		JOIN users u
+		ON t.user_id = u.id
+		ORDER BY t.id DESC
+	`)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var tickets []AdminTicket
+
+	for rows.Next() {
+
+		var ticket AdminTicket
+
+		var firstName string
+		var lastName string
+
+		err := rows.Scan(
+			&ticket.ID,
+			&firstName,
+			&lastName,
+			&ticket.Email,
+			&ticket.Exhibition,
+			&ticket.Date,
+			&ticket.Time,
+			&ticket.Count,
+			&ticket.Price,
+			&ticket.Status,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		ticket.Client =
+			firstName + " " + lastName
+
+		tickets = append(tickets, ticket)
 	}
 
 	return tickets, nil

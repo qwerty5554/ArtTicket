@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Header } from "../components/Header";
-
+import { Send } from "lucide-react";
 import logo from "../assets/images/logo.png";
-import sendIcon from "../assets/images/send.png";
 
 type Message = {
   text: string;
@@ -88,9 +87,9 @@ export default function SupportPage() {
       </div>
 
       {/* ЧАТ */}
-      <div className="px-12 flex-1 flex flex-col mb-10">
+      <div className="px-12 flex justify-center mb-10">
 
-        <div className="bg-[#F5F5F5] rounded-2xl p-6 flex flex-col h-[700px]">
+        <div className="w-full max-w-[1200px] h-[650px] bg-[#F5F5F5] rounded-2xl p-6 flex flex-col shadow-sm">
           {/* HEADER */}
           <div className="mb-4 pb-3 border-b border-[#E5E5E5]">
             <p className="text-sm font-medium">Служба поддержки</p>
@@ -104,8 +103,8 @@ export default function SupportPage() {
               <div
                 key={i}
                 className={`w-fit max-w-[60%] p-3 rounded-2xl text-sm ${msg.sender === "user"
-                    ? "ml-auto bg-gray-300"
-                    : "bg-[#EAEAEA]"
+                  ? "ml-auto bg-gray-300"
+                  : "bg-[#EAEAEA]"
                   }`}
               >
                 <p>{msg.text}</p>
@@ -135,7 +134,9 @@ export default function SupportPage() {
                 onClick={sendMessage}
                 className="p-2 border rounded-lg hover:bg-gray-100 transition"
               >
-                <img src={sendIcon} className="w-4 h-4" />
+
+                <Send size={18} />
+
               </button>
 
             </div>

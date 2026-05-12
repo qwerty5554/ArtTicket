@@ -21,4 +21,9 @@ func SetupRoutes(r *gin.Engine) {
 		"/tickets/my",
 		controllers.GetMyTickets,
 	)
+
+	r.GET(
+	"/admin/bookings",
+	controllers.GetAdminBookings,
+)
 }
