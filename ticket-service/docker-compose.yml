@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: artticket-db
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: artticket
+
+    ports:
+      - "5432:5432"
