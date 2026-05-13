@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Header } from "../components/Header";
 import { QRCodeCanvas } from "qrcode.react";
+
+import logo from "../assets/images/logo.png";
 
 import calendarIcon from "../assets/images/calendar.png";
 import ticketIcon from "../assets/images/verified.png";
@@ -12,6 +14,7 @@ export default function TicketBookingPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // ВЫСТАВКА
   const savedExhibition = JSON.parse(
     localStorage.getItem("currentExhibition") || "null"
   );
@@ -21,8 +24,10 @@ export default function TicketBookingPage() {
     place: "Не выбрано",
   };
 
+  // STEP
   const [step, setStep] = useState(1);
 
+  // КАЛЕНДАРЬ
   const [monthIndex, setMonthIndex] = useState(4);
 
   const [selectedDay, setSelectedDay] =
@@ -31,10 +36,11 @@ export default function TicketBookingPage() {
   const [selectedTime, setSelectedTime] =
     useState("");
 
+  // БИЛЕТЫ
   const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);
 
-  // 🔥 ОПЛАТА
+  // ОПЛАТА
   const [paymentMethod, setPaymentMethod] =
     useState("");
 
@@ -47,30 +53,36 @@ export default function TicketBookingPage() {
 
   const year = 2026;
 
+  // МЕСЯЦЫ
   const months = [
     "Январь", "Февраль", "Март", "Апрель",
     "Май", "Июнь", "Июль", "Август",
     "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
   ];
 
+  // ВРЕМЯ
   const times = [
     "10:00", "11:00", "12:00", "13:00",
     "14:00", "15:00", "16:00", "17:00",
     "18:00", "19:00", "20:00", "21:00"
   ];
 
+  // ДНИ
   const daysInMonth = new Date(
     year,
     monthIndex + 1,
     0
   ).getDate();
 
+  // ПЕРВЫЙ ДЕНЬ
   const firstDay =
     (new Date(year, monthIndex, 1).getDay() + 6) % 7;
 
+  // ИТОГО
   const total =
     adult * 600 + child * 400;
 
+  // СМЕНА МЕСЯЦА
   const changeMonth = (dir: number) => {
 
     setMonthIndex(prev =>
@@ -82,27 +94,22 @@ export default function TicketBookingPage() {
     setSelectedTime("");
   };
 
+  // ПОЛНАЯ ДАТА
   const fullDate = selectedDay
     ? `${selectedDay} ${months[monthIndex]} ${year}`
     : "";
 
-  // 🔥 FINISH PAYMENT
+  // ПОКУПКА
   const finishPayment = async () => {
 
-    console.log("BUY CLICK");
-
-    // 🔹 USER
     const user = JSON.parse(
       localStorage.getItem("currentUser") || "{}"
     );
 
-    // 🔹 TOKEN
     const token =
       localStorage.getItem("token");
 
-    console.log("TOKEN:", token);
-
-    // 🔹 ПРОВЕРКА АВТОРИЗАЦИИ
+    // ПРОВЕРКА
     if (!token) {
 
       alert("Необходимо войти в аккаунт");
@@ -110,10 +117,9 @@ export default function TicketBookingPage() {
       return;
     }
 
-    // 🔹 TICKET
+    // БИЛЕТ
     const ticket: any = {
 
-      // пользователь
       userEmail: user?.email || "",
 
       name:
@@ -121,7 +127,6 @@ export default function TicketBookingPage() {
         " " +
         (user?.lastName || ""),
 
-      // ДЛЯ ПРОФИЛЯ
       title:
         exhibition?.title || "Без названия",
 
@@ -130,28 +135,22 @@ export default function TicketBookingPage() {
 
       total: total,
 
-      // ДЛЯ АДМИНКИ
       exhibition:
         exhibition?.title || "Без названия",
 
       museum:
         exhibition?.place || "Не указан",
 
-      // БИЛЕТЫ
       count: adult + child,
 
       status: "Оплачен",
 
-      // дата
       date: fullDate,
 
       time: selectedTime,
 
-      // цена
       price: total,
     };
-
-    console.log(ticket);
 
     try {
 
@@ -163,7 +162,6 @@ export default function TicketBookingPage() {
           headers: {
             "Content-Type": "application/json",
 
-            // 🔥 JWT
             "Authorization": `Bearer ${token}`,
           },
 
@@ -173,29 +171,19 @@ export default function TicketBookingPage() {
 
       const data = await response.json();
 
-console.log(data);
+      ticket.id = data.id;
 
-// 🔥 ID ИЗ BACKEND
-ticket.id = data.id;
+      if (!response.ok) {
 
-console.log("NEW TICKET:", ticket);
+        alert(
+          data.error ||
+          "Ошибка покупки билета"
+        );
 
-console.log("TICKET RESPONSE:", data);
+        return;
+      }
 
-console.log("STATUS:", response.status);
-
-if (!response.ok) {
-
-  alert(
-    data.error ||
-    "Ошибка покупки билета"
-  );
-
-  return;
-}
-
-      // 🔥 ВРЕМЕННО
-      // пока profile читает localStorage
+      // LOCALSTORAGE
       const oldTickets = JSON.parse(
         localStorage.getItem("tickets") || "[]"
       );
@@ -205,31 +193,21 @@ if (!response.ok) {
         JSON.stringify([...oldTickets, ticket])
       );
 
-      // 🔥 QR
       localStorage.setItem(
         "justBought",
         "true"
       );
 
-      // 🔹 PROFILE
       localStorage.setItem(
-  "lastTicketId",
-  String(ticket.id)
-);
+        "lastTicketId",
+        String(ticket.id)
+      );
 
-localStorage.setItem(
-  "justBought",
-  "true"
-);
-
-navigate("/profile");
+      navigate("/profile");
 
     } catch (err) {
 
-      console.error(
-        "FETCH ERROR:",
-        err
-      );
+      console.error(err);
 
       alert(String(err));
 
@@ -239,9 +217,11 @@ navigate("/profile");
   return (
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
+      {/* HEADER */}
       <Header />
 
-      <div className="px-10 mt-4">
+      {/* НАЗАД */}
+      <div className="px-4 lg:px-10 mt-4">
 
         <button
           onClick={() =>
@@ -256,187 +236,409 @@ navigate("/profile");
 
       </div>
 
-      <div className="flex justify-center mt-6 mb-10 gap-10">
+      {/* STEPS */}
+      <div className="mt-6 mb-10 px-4">
 
-        {[1, 2, 3].map((s, i) => (
+        {/* DESKTOP */}
+        <div className="hidden lg:flex justify-center gap-10">
 
-          <div key={s} className="flex items-center">
+          {[1, 2, 3].map((s, i) => (
 
-            <div className="flex flex-col items-center">
+            <div key={s} className="flex items-center">
 
-              <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-white
-                ${
-                  step === s
-                    ? "bg-[#8B2635]"
-                    : step > s
-                    ? "bg-green-500"
-                    : "bg-gray-300"
-                }`}
-              >
-                {s}
+              <div className="flex flex-col items-center">
+
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-white
+                  ${step === s
+                      ? "bg-[#8B2635]"
+                      : step > s
+                        ? "bg-green-500"
+                        : "bg-gray-300"
+                    }`}
+                >
+                  {s}
+                </div>
+
+                <p className="text-xs mt-2">
+
+                  {s === 1 && "Дата и время"}
+
+                  {s === 2 && "Билеты"}
+
+                  {s === 3 && "Оплата"}
+
+                </p>
+
               </div>
 
-              <p className="text-xs mt-2">
-
-                {s === 1 && "Дата и время"}
-
-                {s === 2 && "Билеты"}
-
-                {s === 3 && "Оплата"}
-
-              </p>
+              {i !== 2 && (
+                <div
+                  className={`w-16 h-[2px] mx-4 ${step > s
+                      ? "bg-green-500"
+                      : "bg-gray-300"
+                    }`}
+                />
+              )}
 
             </div>
+          ))}
 
-            {i !== 2 && (
+        </div>
+
+        {/* MOBILE */}
+        <div className="flex lg:hidden justify-center">
+
+          <div className="flex items-start">
+
+            {[1, 2, 3].map((s, i) => (
+
               <div
-                className={`w-16 h-[2px] mx-4 ${
-                  step > s
-                    ? "bg-green-500"
-                    : "bg-gray-300"
-                }`}
-              />
-            )}
+                key={s}
+                className="flex items-center"
+              >
 
-          </div>
-        ))}
+                {/* STEP */}
+                <div className="flex flex-col items-center min-w-[72px]">
 
-      </div>
-
-      <div className="flex justify-center gap-10 px-10">
-
-        <div className="bg-[#F5F5F5] rounded-2xl p-6 w-[600px]">
-
-          {/* STEP 1 */}
-          {step === 1 && (
-            <>
-              <div className="flex items-center gap-2 mb-4">
-                <img
-                  src={calendarIcon}
-                  className="w-5 h-5"
-                />
-
-                <p className="font-medium">
-                  Выберите дату посещения
-                </p>
-              </div>
-
-              <div className="flex justify-between mb-4">
-
-                <span>
-                  {months[monthIndex]} {year}
-                </span>
-
-                <div className="flex gap-4">
-
-                  <button
-                    onClick={() =>
-                      changeMonth(-1)
-                    }
+                  {/* КРУГ */}
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium
+                    ${step === s
+                        ? "bg-[#8B2635]"
+                        : step > s
+                          ? "bg-green-500"
+                          : "bg-[#D9D9D9]"
+                      }`}
                   >
-                    ‹
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      changeMonth(1)
-                    }
-                  >
-                    ›
-                  </button>
-
-                </div>
-
-              </div>
-
-              <div className="flex gap-6">
-
-                <div className="grid grid-cols-7 gap-2 text-center flex-1">
-
-                  {[
-                    "Пн",
-                    "Вт",
-                    "Ср",
-                    "Чт",
-                    "Пт",
-                    "Сб",
-                    "Вс"
-                  ].map(d => (
-                    <div
-                      key={d}
-                      className="text-xs text-gray-400"
-                    >
-                      {d}
-                    </div>
-                  ))}
-
-                  {Array.from({
-                    length: firstDay
-                  }).map((_, i) => (
-                    <div key={i}></div>
-                  ))}
-
-                  {Array.from({
-                    length: daysInMonth
-                  }).map((_, i) => {
-
-                    const day = i + 1;
-
-                    return (
-                      <button
-                        key={day}
-                        onClick={() =>
-                          setSelectedDay(day)
-                        }
-                        className={`h-10 rounded-lg ${
-                          selectedDay === day
-                            ? "bg-[#8B2635] text-white"
-                            : "bg-white hover:bg-gray-200"
-                        }`}
-                      >
-                        {day}
-                      </button>
-                    );
-                  })}
-
-                </div>
-
-                {selectedDay && (
-
-                  <div className="w-[180px]">
-
-                    <p className="mb-2 text-sm">
-                      Выберите время
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-2">
-
-                      {times.map(t => (
-                        <button
-                          key={t}
-                          onClick={() =>
-                            setSelectedTime(t)
-                          }
-                          className={`py-2 rounded ${
-                            selectedTime === t
-                              ? "bg-[#8B2635] text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          {t}
-                        </button>
-                      ))}
-
-                    </div>
-
+                    {s}
                   </div>
+
+                  {/* ТЕКСТ */}
+                  <p
+                    className={`mt-2 text-[10px] text-center leading-tight
+                    ${step === s || step > s
+                        ? "text-black"
+                        : "text-[#B5B5B5]"
+                      }`}
+                  >
+
+                    {s === 1 && "Дата и время"}
+
+                    {s === 2 && "Билеты"}
+
+                    {s === 3 && "Оплата"}
+
+                  </p>
+
+                </div>
+
+                {/* ЛИНИЯ */}
+                {i !== 2 && (
+                  <div
+                    className={`w-10 h-[2px] mx-1 mb-6 ${step > s
+                        ? "bg-green-500"
+                        : "bg-[#D9D9D9]"
+                      }`}
+                  />
                 )}
 
               </div>
+            ))}
 
-              <div className="flex justify-end mt-6">
+          </div>
 
+        </div>
+
+      </div>
+
+      {/* ОСНОВНОЙ КОНТЕЙНЕР */}
+      <div className="flex flex-col lg:flex-row justify-center gap-6 px-4 lg:px-10 pb-10 max-w-[1200px] mx-auto w-full">
+
+        {/* ЛЕВАЯ ЧАСТЬ */}
+        <div className="w-full max-w-[420px] lg:max-w-[600px] mx-auto">
+
+          {/* ВАШ ЗАКАЗ MOBILE */}
+          <div className="lg:hidden bg-[#F5F5F5] rounded-2xl p-4 mb-4">
+
+            <p className="text-sm text-gray-400 mb-2">
+              Ваш заказ
+            </p>
+
+            <p className="text-xs text-gray-400">
+              Выставка
+            </p>
+
+            <p className="font-medium text-sm leading-relaxed mb-4">
+              {exhibition?.title}
+            </p>
+
+            <p className="text-xs text-gray-400">
+              Дата и время
+            </p>
+
+            <p className="text-sm mb-4">
+              {fullDate || "—"}
+              {selectedTime && `, ${selectedTime}`}
+            </p>
+
+            <div className="flex justify-between text-sm mb-1">
+
+              <span>
+                Взрослых: {adult}
+              </span>
+
+              <span>
+                {adult * 600} ₽
+              </span>
+
+            </div>
+
+            {child > 0 && (
+              <div className="flex justify-between text-sm mb-2">
+
+                <span>
+                  Детских: {child}
+                </span>
+
+                <span>
+                  {child * 400} ₽
+                </span>
+
+              </div>
+            )}
+
+            <div className="border-t my-3"></div>
+
+            <div className="flex justify-between items-center">
+
+              <span className="text-sm">
+                Итого:
+              </span>
+
+              <span className="text-[#8B2635] text-2xl font-semibold">
+                {total} ₽
+              </span>
+
+            </div>
+
+          </div>
+
+          {/* ОСНОВНОЙ БЛОК */}
+          <div className="bg-[#F5F5F5] rounded-2xl p-4 lg:p-6">
+
+            {/* STEP 1 */}
+            {/* STEP 1 */}
+            {step === 1 && (
+              <>
+                <div className="flex items-center gap-2 mb-5">
+
+                  <img
+                    src={calendarIcon}
+                    className="w-5 h-5"
+                  />
+
+                  <p className="font-medium text-sm lg:text-base">
+                    Выберите дату посещения
+                  </p>
+
+                </div>
+
+                {/* МЕСЯЦ */}
+                <div className="flex justify-between items-center mb-5">
+
+                  <span className="font-medium text-sm lg:text-base">
+                    {months[monthIndex]} {year}
+                  </span>
+
+                  <div className="flex gap-4">
+
+                    <button
+                      onClick={() => changeMonth(-1)}
+                    >
+                      ‹
+                    </button>
+
+                    <button
+                      onClick={() => changeMonth(1)}
+                    >
+                      ›
+                    </button>
+
+                  </div>
+
+                </div>
+
+                {/* MOBILE */}
+                <div className="lg:hidden">
+
+                  {/* КАЛЕНДАРЬ */}
+                  <div className="grid grid-cols-7 gap-2 text-center mb-6">
+
+                    {[
+                      "Пн",
+                      "Вт",
+                      "Ср",
+                      "Чт",
+                      "Пт",
+                      "Сб",
+                      "Вс"
+                    ].map(d => (
+                      <div
+                        key={d}
+                        className="text-[10px] text-gray-400"
+                      >
+                        {d}
+                      </div>
+                    ))}
+
+                    {Array.from({
+                      length: firstDay
+                    }).map((_, i) => (
+                      <div key={i}></div>
+                    ))}
+
+                    {Array.from({
+                      length: daysInMonth
+                    }).map((_, i) => {
+
+                      const day = i + 1;
+
+                      return (
+                        <button
+                          key={day}
+                          onClick={() =>
+                            setSelectedDay(day)
+                          }
+                          className={`h-10 rounded-lg text-sm ${selectedDay === day
+                              ? "bg-[#8B2635] text-white"
+                              : "bg-white hover:bg-gray-200"
+                            }`}
+                        >
+                          {day}
+                        </button>
+                      );
+                    })}
+
+                  </div>
+
+                  {/* ВРЕМЯ MOBILE */}
+                  {selectedDay && (
+                    <>
+                      <p className="mb-3 text-sm">
+                        Выберите время
+                      </p>
+
+                      <div className="grid grid-cols-3 gap-2 mb-6">
+
+                        {times.map(t => (
+                          <button
+                            key={t}
+                            onClick={() =>
+                              setSelectedTime(t)
+                            }
+                            className={`py-2 rounded-lg text-sm ${selectedTime === t
+                                ? "bg-[#8B2635] text-white"
+                                : "bg-gray-200"
+                              }`}
+                          >
+                            {t}
+                          </button>
+                        ))}
+
+                      </div>
+                    </>
+                  )}
+
+                </div>
+
+                {/* DESKTOP */}
+                <div className="hidden lg:flex gap-6">
+
+                  {/* КАЛЕНДАРЬ */}
+                  <div className="grid grid-cols-7 gap-2 text-center flex-1">
+
+                    {[
+                      "Пн",
+                      "Вт",
+                      "Ср",
+                      "Чт",
+                      "Пт",
+                      "Сб",
+                      "Вс"
+                    ].map(d => (
+                      <div
+                        key={d}
+                        className="text-xs text-gray-400"
+                      >
+                        {d}
+                      </div>
+                    ))}
+
+                    {Array.from({
+                      length: firstDay
+                    }).map((_, i) => (
+                      <div key={i}></div>
+                    ))}
+
+                    {Array.from({
+                      length: daysInMonth
+                    }).map((_, i) => {
+
+                      const day = i + 1;
+
+                      return (
+                        <button
+                          key={day}
+                          onClick={() =>
+                            setSelectedDay(day)
+                          }
+                          className={`h-10 rounded-lg ${selectedDay === day
+                              ? "bg-[#8B2635] text-white"
+                              : "bg-white hover:bg-gray-200"
+                            }`}
+                        >
+                          {day}
+                        </button>
+                      );
+                    })}
+
+                  </div>
+
+                  {/* ВРЕМЯ DESKTOP */}
+                  {selectedDay && (
+
+                    <div className="w-[180px]">
+
+                      <p className="mb-2 text-sm">
+                        Выберите время
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-2">
+
+                        {times.map(t => (
+                          <button
+                            key={t}
+                            onClick={() =>
+                              setSelectedTime(t)
+                            }
+                            className={`py-2 rounded text-sm ${selectedTime === t
+                                ? "bg-[#8B2635] text-white"
+                                : "bg-gray-200"
+                              }`}
+                          >
+                            {t}
+                          </button>
+                        ))}
+
+                      </div>
+
+                    </div>
+                  )}
+
+                </div>
+
+                {/* КНОПКА */}
                 <button
                   disabled={
                     !selectedDay ||
@@ -445,137 +647,293 @@ navigate("/profile");
                   onClick={() =>
                     setStep(2)
                   }
-                  className="bg-[#8B2635] text-white px-6 py-2 rounded-lg disabled:opacity-50"
+                  className="w-full lg:w-auto lg:px-6 bg-[#8B2635] text-white py-3 lg:py-2 rounded-xl disabled:opacity-50 mt-6"
                 >
                   Далее →
                 </button>
+              </>
+            )}
 
-              </div>
-            </>
-          )}
+            {/* STEP 2 */}
+            {step === 2 && (
+              <>
+                <div className="flex items-center gap-2 mb-2">
 
-          {/* STEP 2 */}
-          {step === 2 && (
-            <>
-              <div className="flex items-center gap-2 mb-2">
-                <img src={ticketIcon} className="w-5 h-5" />
-                <p className="font-medium">Выберите билеты</p>
-              </div>
+                  <img
+                    src={ticketIcon}
+                    className="w-5 h-5"
+                  />
 
-              <p className="text-xs text-gray-400 mb-6">
-                Укажите количество билетов
-              </p>
+                  <p className="font-medium text-sm lg:text-base">
+                    Выберите билеты
+                  </p>
 
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <p>Взрослый</p>
-                  <p className="text-xs text-gray-400">600 ₽</p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <button onClick={() => setAdult(Math.max(0, adult - 1))} className="w-8 h-8 bg-gray-200 rounded">-</button>
-                  <span>{adult}</span>
-                  <button onClick={() => setAdult(adult + 1)} className="w-8 h-8 bg-gray-200 rounded">+</button>
-                </div>
-              </div>
+                <p className="text-xs text-gray-400 mb-6">
+                  Укажите количество билетов
+                </p>
 
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <p>Детский</p>
-                  <p className="text-xs text-gray-400">400 ₽</p>
+                {/* ВЗРОСЛЫЕ */}
+                <div className="flex justify-between items-center mb-5">
+
+                  <div>
+                    <p>Взрослый</p>
+
+                    <p className="text-xs text-gray-400">
+                      600 ₽
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+
+                    <button
+                      onClick={() =>
+                        setAdult(Math.max(0, adult - 1))
+                      }
+                      className="w-8 h-8 bg-gray-200 rounded"
+                    >
+                      -
+                    </button>
+
+                    <span>{adult}</span>
+
+                    <button
+                      onClick={() =>
+                        setAdult(adult + 1)
+                      }
+                      className="w-8 h-8 bg-gray-200 rounded"
+                    >
+                      +
+                    </button>
+
+                  </div>
+
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <button onClick={() => setChild(Math.max(0, child - 1))} className="w-8 h-8 bg-gray-200 rounded">-</button>
-                  <span>{child}</span>
-                  <button onClick={() => setChild(child + 1)} className="w-8 h-8 bg-gray-200 rounded">+</button>
-                </div>
-              </div>
+                {/* ДЕТСКИЕ */}
+                <div className="flex justify-between items-center mb-6">
 
-              <div className="flex justify-end">
-                <button onClick={() => setStep(3)} className="bg-[#8B2635] text-white px-6 py-2 rounded-lg">
+                  <div>
+                    <p>Детский</p>
+
+                    <p className="text-xs text-gray-400">
+                      400 ₽
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+
+                    <button
+                      onClick={() =>
+                        setChild(Math.max(0, child - 1))
+                      }
+                      className="w-8 h-8 bg-gray-200 rounded"
+                    >
+                      -
+                    </button>
+
+                    <span>{child}</span>
+
+                    <button
+                      onClick={() =>
+                        setChild(child + 1)
+                      }
+                      className="w-8 h-8 bg-gray-200 rounded"
+                    >
+                      +
+                    </button>
+
+                  </div>
+
+                </div>
+
+                <button
+                  onClick={() => setStep(3)}
+                  className="w-full lg:w-auto lg:px-6 bg-[#8B2635] text-white py-3 lg:py-2 rounded-xl"
+                >
                   Далее →
                 </button>
-              </div>
-            </>
-          )}
+              </>
+            )}
 
-          {/* STEP 3 */}
-          {step === 3 && (
-            <>
-              <div className="flex items-center gap-2 mb-2">
-                <img src={formIcon} className="w-5 h-5" />
-                <p className="font-medium">Контактные данные и оплата</p>
-              </div>
+            {/* STEP 3 */}
+            {step === 3 && (
+              <>
+                <div className="flex items-center gap-2 mb-4">
 
-              <div className="flex flex-col gap-3 mb-6">
-                <input placeholder="Email *" value={email} onChange={(e) => setEmail(e.target.value)} className="border p-2 rounded" />
-                <input placeholder="Телефон *" value={phone} onChange={(e) => setPhone(e.target.value)} className="border p-2 rounded" />
-                <input placeholder="Имя *" value={name} onChange={(e) => setName(e.target.value)} className="border p-2 rounded" />
-              </div>
+                  <img
+                    src={formIcon}
+                    className="w-5 h-5"
+                  />
 
-              <p className="mb-2">Способ оплаты</p>
+                  <p className="font-medium text-sm lg:text-base">
+                    Контактные данные и оплата
+                  </p>
 
-              <div className="flex flex-col gap-2 mb-4">
-                <label>
-                  <input type="radio" checked={paymentMethod === "card"} onChange={() => setPaymentMethod("card")} />
-                  Банковская карта
-                </label>
+                </div>
 
-                <label>
-                  <input type="radio" checked={paymentMethod === "sbp"} onChange={() => setPaymentMethod("sbp")} />
-                  СБП
-                </label>
-              </div>
+                {/* INPUTS */}
+                <div className="flex flex-col gap-3 mb-6">
 
-              <div className="flex justify-end">
+                  <input
+                    placeholder="Email *"
+                    value={email}
+                    onChange={(e) =>
+                      setEmail(e.target.value)
+                    }
+                    className="border p-3 rounded-xl text-sm"
+                  />
+
+                  <input
+                    placeholder="Телефон *"
+                    value={phone}
+                    onChange={(e) =>
+                      setPhone(e.target.value)
+                    }
+                    className="border p-3 rounded-xl text-sm"
+                  />
+
+                  <input
+                    placeholder="Имя *"
+                    value={name}
+                    onChange={(e) =>
+                      setName(e.target.value)
+                    }
+                    className="border p-3 rounded-xl text-sm"
+                  />
+
+                </div>
+
+                {/* ОПЛАТА */}
+                <p className="mb-3 text-sm">
+                  Способ оплаты
+                </p>
+
+                <div className="flex flex-col gap-3 mb-5">
+
+                  <label className="flex items-center gap-2 text-sm">
+
+                    <input
+                      type="radio"
+                      checked={paymentMethod === "card"}
+                      onChange={() =>
+                        setPaymentMethod("card")
+                      }
+                    />
+
+                    Банковская карта
+
+                  </label>
+
+                  <label className="flex items-center gap-2 text-sm">
+
+                    <input
+                      type="radio"
+                      checked={paymentMethod === "sbp"}
+                      onChange={() =>
+                        setPaymentMethod("sbp")
+                      }
+                    />
+
+                    СБП
+
+                  </label>
+
+                </div>
+
+                {/* КНОПКА */}
                 <button
-                  disabled={!paymentMethod || !email || !phone || !name}
-                  onClick={() => setIsPaying(true)}
-                  className="bg-[#8B2635] text-white px-6 py-2 rounded-xl disabled:opacity-40"
+                  disabled={
+                    !paymentMethod ||
+                    !email ||
+                    !phone ||
+                    !name
+                  }
+                  onClick={() =>
+                    setIsPaying(true)
+                  }
+                  className="w-full lg:w-auto lg:px-6 bg-[#8B2635] text-white py-3 lg:py-2 rounded-xl disabled:opacity-40"
                 >
                   Оплатить
                 </button>
-              </div>
 
-              {/* КАРТА */}
-              {isPaying && paymentMethod === "card" && (
-                <div className="mt-6 p-4 bg-white rounded-xl border">
-                  <p className="mb-3 font-medium">Данные карты</p>
-                  <input placeholder="Номер карты" className="w-full border p-2 mb-2 rounded" />
-                  <input placeholder="MM/YY" className="w-full border p-2 mb-2 rounded" />
-                  <input placeholder="CVV" className="w-full border p-2 mb-3 rounded" />
+                {/* КАРТА */}
+                {isPaying && paymentMethod === "card" && (
+                  <div className="mt-6 p-4 bg-white rounded-xl border">
 
-                  <button onClick={finishPayment} className="w-full bg-[#8B2635] text-white py-2 rounded">
-                    Подтвердить
-                  </button>
-                </div>
-              )}
+                    <p className="mb-3 font-medium">
+                      Данные карты
+                    </p>
 
-              {/* СБП */}
-              {isPaying && paymentMethod === "sbp" && (
-                <div className="mt-6 p-4 bg-white rounded-xl border text-center">
-                  <p className="mb-3 font-medium">Оплатите через СБП</p>
+                    <input
+                      placeholder="Номер карты"
+                      className="w-full border p-3 mb-2 rounded-xl"
+                    />
 
-                  <div className="flex justify-center mb-3">
-                    <QRCodeCanvas value="payment" size={150} />
+                    <input
+                      placeholder="MM/YY"
+                      className="w-full border p-3 mb-2 rounded-xl"
+                    />
+
+                    <input
+                      placeholder="CVV"
+                      className="w-full border p-3 mb-3 rounded-xl"
+                    />
+
+                    <button
+                      onClick={finishPayment}
+                      className="w-full bg-[#8B2635] text-white py-3 rounded-xl"
+                    >
+                      Подтвердить
+                    </button>
+
                   </div>
+                )}
 
-                  <button onClick={finishPayment} className="bg-[#8B2635] text-white px-4 py-2 rounded">
-                    Я оплатил
-                  </button>
-                </div>
-              )}
-            </>
-          )}
+                {/* СБП */}
+                {isPaying && paymentMethod === "sbp" && (
+                  <div className="mt-6 p-4 bg-white rounded-xl border text-center">
+
+                    <p className="mb-3 font-medium">
+                      Оплатите через СБП
+                    </p>
+
+                    <div className="flex justify-center mb-4">
+
+                      <QRCodeCanvas
+                        value="payment"
+                        size={150}
+                      />
+
+                    </div>
+
+                    <button
+                      onClick={finishPayment}
+                      className="w-full bg-[#8B2635] text-white py-3 rounded-xl"
+                    >
+                      Я оплатил
+                    </button>
+
+                  </div>
+                )}
+              </>
+            )}
+
+          </div>
 
         </div>
 
-        <div className="bg-[#F5F5F5] rounded-2xl p-6 w-[320px]">
+        {/* DESKTOP SUMMARY */}
+        <div className="hidden lg:block bg-[#F5F5F5] rounded-2xl p-6 w-[320px] h-fit sticky top-24">
 
-          <p className="text-sm text-gray-400 mb-2">Ваш заказ</p>
+          <p className="text-sm text-gray-400 mb-2">
+            Ваш заказ
+          </p>
 
-          <p className="text-xs text-gray-400">Выставка</p>
+          <p className="text-xs text-gray-400">
+            Выставка
+          </p>
 
           <p className="font-medium mb-4">
             {exhibition?.title}
@@ -586,38 +944,135 @@ navigate("/profile");
           </p>
 
           <p className="mb-4">
-            {fullDate}, {selectedTime}
+            {fullDate || "—"}
+            {selectedTime && `, ${selectedTime}`}
           </p>
 
-          <p className="text-xs text-gray-400 mb-2">
-            Билеты
-          </p>
+          <div className="flex justify-between text-sm mb-1">
 
-          <div className="flex justify-between text-sm">
-            <span>Взрослых: {adult}</span>
-            <span>{adult * 600} ₽</span>
+            <span>
+              Взрослых: {adult}
+            </span>
+
+            <span>
+              {adult * 600} ₽
+            </span>
+
           </div>
 
           {child > 0 && (
-            <div className="flex justify-between text-sm">
-              <span>Детских: {child}</span>
-              <span>{child * 400} ₽</span>
+            <div className="flex justify-between text-sm mb-1">
+
+              <span>
+                Детских: {child}
+              </span>
+
+              <span>
+                {child * 400} ₽
+              </span>
+
             </div>
           )}
 
           <div className="border-t my-3"></div>
 
           <div className="flex justify-between">
-            <span>Итого:</span>
+
+            <span>
+              Итого:
+            </span>
 
             <span className="text-[#8B2635] text-xl font-semibold">
               {total} ₽
             </span>
+
           </div>
 
         </div>
 
       </div>
+
+      {/* FOOTER */}
+      <div className="bg-black text-white px-4 lg:px-12 py-10 mt-auto">
+
+        <div className="max-w-[420px] lg:max-w-none mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
+
+          {/* ЛОГО */}
+          <div>
+
+            <div className="flex items-center gap-2 mb-3">
+
+              <img
+                src={logo}
+                className="w-10 h-10"
+              />
+
+              <span className="font-semibold">
+                ArtTicket
+              </span>
+
+            </div>
+
+            <p className="text-gray-400 text-sm">
+              Покупайте билеты в лучшие музеи и выставки онлайн
+            </p>
+
+          </div>
+
+          {/* ПОМОЩЬ */}
+          <div>
+
+            <p className="font-semibold mb-3">
+              Помощь
+            </p>
+
+            <div className="text-gray-400 text-sm flex flex-col gap-2">
+
+              <Link to="/faq">
+                Часто задаваемые вопросы
+              </Link>
+
+              <Link to="/refund">
+                Условия возврата
+              </Link>
+
+              <Link to="/rules">
+                Правила посещения
+              </Link>
+
+            </div>
+
+          </div>
+
+          {/* КОНТАКТЫ */}
+          <div>
+
+            <p className="font-semibold mb-3">
+              Контакты
+            </p>
+
+            <div className="text-gray-400 text-sm flex flex-col gap-1">
+
+              <span>Email: info@artticket.ru</span>
+
+              <span>Телефон: +7 (495) 123-45-67</span>
+
+              <span>Поддержка: support@artticket.ru</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="h-[1px] bg-gray-800 mb-4" />
+
+        <p className="text-center text-gray-500 text-sm">
+          © 2026 ArtTicket
+        </p>
+
+      </div>
+
     </div>
   );
 }

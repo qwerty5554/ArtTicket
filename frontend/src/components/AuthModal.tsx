@@ -24,7 +24,6 @@ export const AuthModal = ({ onClose }: Props) => {
   const [errors, setErrors] = useState<any>({});
   const [loginError, setLoginError] = useState("");
 
-  // 🔹 VALIDATE
   const validate = () => {
 
     const e: any = {};
@@ -49,7 +48,7 @@ export const AuthModal = ({ onClose }: Props) => {
     return Object.keys(e).length === 0;
   };
 
-  // 🔹 АВТО ЛОГИН ПОСЛЕ РЕГИСТРАЦИИ
+  // АВТО ЛОГИН ПОСЛЕ РЕГИСТРАЦИИ
   const handleLoginAfterRegister = async () => {
 
     try {
@@ -72,8 +71,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
       const data = await response.json();
 
-      console.log(data);
-
       if (!response.ok) {
 
         setErrors({
@@ -83,23 +80,23 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // 🔹 TOKEN
+      // TOKEN
       localStorage.setItem(
         "token",
         data.token
       );
 
-      // 🔹 USER
+      // USER
       localStorage.setItem(
-  "currentUser",
-  JSON.stringify({
-    ...data.user,
+        "currentUser",
+        JSON.stringify({
+          ...data.user,
 
-    firstName: data.user.first_name,
+          firstName: data.user.first_name,
 
-    lastName: data.user.last_name,
-  })
-);
+          lastName: data.user.last_name,
+        })
+      );
 
       localStorage.setItem(
         "isAuth",
@@ -122,10 +119,8 @@ export const AuthModal = ({ onClose }: Props) => {
     }
   };
 
-  // 🔹 REGISTER
+  // REGISTER
   const handleRegister = async () => {
-
-    console.log("REGISTER CLICK");
 
     if (!validate()) return;
 
@@ -151,9 +146,7 @@ export const AuthModal = ({ onClose }: Props) => {
 
       const data = await response.json();
 
-      console.log(data);
-
-      // 🔹 ERROR
+      // ERROR
       if (!response.ok) {
 
         setErrors({
@@ -163,7 +156,7 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // 🔹 АВТО ЛОГИН
+      // АВТО ЛОГИН
       await handleLoginAfterRegister();
 
     } catch (err) {
@@ -173,7 +166,7 @@ export const AuthModal = ({ onClose }: Props) => {
     }
   };
 
-  // 🔹 LOGIN
+  // LOGIN
   const handleLogin = async () => {
 
     // ADMIN
@@ -212,9 +205,7 @@ export const AuthModal = ({ onClose }: Props) => {
 
       const data = await response.json();
 
-      console.log(data);
-
-      // 🔹 ERROR
+      // ERROR
       if (!response.ok) {
 
         setLoginError(
@@ -224,23 +215,23 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // 🔹 TOKEN
+      // TOKEN
       localStorage.setItem(
         "token",
         data.token
       );
 
-      // 🔹 USER
+      // USER
       localStorage.setItem(
-  "currentUser",
-  JSON.stringify({
-    ...data.user,
+        "currentUser",
+        JSON.stringify({
+          ...data.user,
 
-    firstName: data.user.first_name,
+          firstName: data.user.first_name,
 
-    lastName: data.user.last_name,
-  })
-);
+          lastName: data.user.last_name,
+        })
+      );
 
       localStorage.setItem(
         "isAuth",
@@ -268,9 +259,11 @@ export const AuthModal = ({ onClose }: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-      <div className="bg-[#8B2635] w-[420px] rounded-3xl p-6 text-white relative">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+
+      {/* MODAL */}
+      <div className="bg-[#8B2635] w-full max-w-[420px] rounded-3xl p-5 lg:p-6 text-white relative max-h-[90vh] overflow-y-auto">
 
         {/* CLOSE */}
         <button
@@ -317,8 +310,12 @@ export const AuthModal = ({ onClose }: Props) => {
 
           <div className="flex flex-col gap-4">
 
+            {/* EMAIL */}
             <div>
-              <p className="text-xs mb-1">Email</p>
+
+              <p className="text-xs mb-1">
+                Email
+              </p>
 
               <input
                 onChange={(e) =>
@@ -327,12 +324,17 @@ export const AuthModal = ({ onClose }: Props) => {
                     email: e.target.value,
                   })
                 }
-                className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
               />
+
             </div>
 
+            {/* PASSWORD */}
             <div>
-              <p className="text-xs mb-1">Пароль</p>
+
+              <p className="text-xs mb-1">
+                Пароль
+              </p>
 
               <input
                 type="password"
@@ -342,23 +344,26 @@ export const AuthModal = ({ onClose }: Props) => {
                     password: e.target.value,
                   })
                 }
-                className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
               />
+
             </div>
 
+            {/* ERROR */}
             {loginError && (
               <p className="text-xs text-red-200">
                 {loginError}
               </p>
             )}
 
+            {/* BUTTON */}
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 handleLogin();
               }}
-              className="mt-2 bg-[#5A1E27] py-3 rounded-xl hover:bg-[#6E1F2B]"
+              className="mt-2 bg-[#5A1E27] py-3 rounded-xl hover:bg-[#6E1F2B] transition text-sm"
             >
               Войти
             </button>
@@ -371,10 +376,15 @@ export const AuthModal = ({ onClose }: Props) => {
 
           <div className="flex flex-col gap-4">
 
-            <div className="flex gap-3">
+            {/* NAME + LASTNAME */}
+            <div className="flex flex-col sm:flex-row gap-3">
 
+              {/* NAME */}
               <div className="w-full">
-                <p className="text-xs mb-1">Имя</p>
+
+                <p className="text-xs mb-1">
+                  Имя
+                </p>
 
                 <input
                   onChange={(e) =>
@@ -383,7 +393,7 @@ export const AuthModal = ({ onClose }: Props) => {
                       firstName: e.target.value,
                     })
                   }
-                  className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                  className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
                 />
 
                 {errors.firstName && (
@@ -391,10 +401,15 @@ export const AuthModal = ({ onClose }: Props) => {
                     {errors.firstName}
                   </p>
                 )}
+
               </div>
 
+              {/* LASTNAME */}
               <div className="w-full">
-                <p className="text-xs mb-1">Фамилия</p>
+
+                <p className="text-xs mb-1">
+                  Фамилия
+                </p>
 
                 <input
                   onChange={(e) =>
@@ -403,7 +418,7 @@ export const AuthModal = ({ onClose }: Props) => {
                       lastName: e.target.value,
                     })
                   }
-                  className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                  className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
                 />
 
                 {errors.lastName && (
@@ -411,12 +426,17 @@ export const AuthModal = ({ onClose }: Props) => {
                     {errors.lastName}
                   </p>
                 )}
+
               </div>
 
             </div>
 
+            {/* EMAIL */}
             <div>
-              <p className="text-xs mb-1">Email</p>
+
+              <p className="text-xs mb-1">
+                Email
+              </p>
 
               <input
                 onChange={(e) =>
@@ -425,7 +445,7 @@ export const AuthModal = ({ onClose }: Props) => {
                     email: e.target.value,
                   })
                 }
-                className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
               />
 
               {errors.email && (
@@ -433,10 +453,15 @@ export const AuthModal = ({ onClose }: Props) => {
                   {errors.email}
                 </p>
               )}
+
             </div>
 
+            {/* PASSWORD */}
             <div>
-              <p className="text-xs mb-1">Пароль</p>
+
+              <p className="text-xs mb-1">
+                Пароль
+              </p>
 
               <input
                 type="password"
@@ -446,7 +471,7 @@ export const AuthModal = ({ onClose }: Props) => {
                     password: e.target.value,
                   })
                 }
-                className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
               />
 
               {errors.password && (
@@ -454,9 +479,12 @@ export const AuthModal = ({ onClose }: Props) => {
                   {errors.password}
                 </p>
               )}
+
             </div>
 
+            {/* CONFIRM */}
             <div>
+
               <p className="text-xs mb-1">
                 Подтверждение пароля
               </p>
@@ -469,7 +497,7 @@ export const AuthModal = ({ onClose }: Props) => {
                     confirm: e.target.value,
                   })
                 }
-                className="w-full bg-[#E7B6BC] text-black p-2 rounded-md"
+                className="w-full bg-[#E7B6BC] text-black p-3 rounded-xl outline-none text-sm"
               />
 
               {errors.confirm && (
@@ -477,15 +505,17 @@ export const AuthModal = ({ onClose }: Props) => {
                   {errors.confirm}
                 </p>
               )}
+
             </div>
 
+            {/* BUTTON */}
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 handleRegister();
               }}
-              className="mt-2 bg-[#5A1E27] py-3 rounded-xl hover:bg-[#6E1F2B]"
+              className="mt-2 bg-[#5A1E27] py-3 rounded-xl hover:bg-[#6E1F2B] transition text-sm"
             >
               Зарегистрироваться
             </button>
@@ -494,6 +524,7 @@ export const AuthModal = ({ onClose }: Props) => {
         )}
 
       </div>
+
     </div>
   );
 };

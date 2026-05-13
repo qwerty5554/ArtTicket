@@ -3,10 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { QrModal } from "../components/QrModal";
 
 import logo from "../assets/images/logo.png";
-
-import homeIcon from "../assets/images/home.png";
+import { Header } from "../components/Header";
 import chatIcon from "../assets/images/chat.png";
-import logoutIcon from "../assets/images/logout.png";
 
 import ticketsIcon from "../assets/images/ticket.png";
 import historyIcon from "../assets/images/history.png";
@@ -15,19 +13,24 @@ export default function ProfilePage() {
 
   const navigate = useNavigate();
 
+
+  // ТЕКУЩАЯ ВКЛАДКА
   const [tab, setTab] = useState("tickets");
 
+  // QR
   const [showQR, setShowQR] = useState(false);
 
   const [currentTicket, setCurrentTicket] = useState<any>(null);
 
+  // ПОЛЬЗОВАТЕЛЬ
   const user = JSON.parse(
     localStorage.getItem("currentUser") || "{}"
   );
 
+  // БИЛЕТЫ
   const [tickets, setTickets] = useState<any[]>([]);
 
-  // 🔥 ЗАГРУЗКА БИЛЕТОВ ПОЛЬЗОВАТЕЛЯ
+  // ЗАГРУЗКА БИЛЕТОВ
   useEffect(() => {
 
     const loadTickets = async () => {
@@ -48,8 +51,6 @@ export default function ProfilePage() {
 
         const data = await response.json();
 
-        console.log(data);
-
         setTickets(data || []);
 
       } catch (err) {
@@ -63,7 +64,7 @@ export default function ProfilePage() {
 
   }, []);
 
-  // 🔥 АВТО QR ПОСЛЕ ПОКУПКИ
+  // АВТО QR ПОСЛЕ ПОКУПКИ
   useEffect(() => {
 
     const justBought =
@@ -88,22 +89,24 @@ export default function ProfilePage() {
         setCurrentTicket(ticket);
 
         setShowQR(true);
+
       }
 
       localStorage.removeItem("justBought");
 
       localStorage.removeItem("lastTicketId");
+
     }
 
   }, [tickets]);
 
-  // 🔥 АКТИВНЫЕ БИЛЕТЫ
+  // АКТИВНЫЕ БИЛЕТЫ
   const activeTickets = tickets.filter(
     (ticket: any) =>
       ticket.status !== "Посещён"
   );
 
-  // 🔥 ИСТОРИЯ ПОСЕЩЕНИЙ
+  // ИСТОРИЯ
   const historyTickets = tickets.filter(
     (ticket: any) =>
       ticket.status === "Посещён"
@@ -114,65 +117,15 @@ export default function ProfilePage() {
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
       {/* HEADER */}
-      <div className="px-12 py-4 flex justify-between items-center border-b shadow-sm bg-white">
-
-        <div className="flex items-center gap-3">
-
-          <img src={logo} className="h-10" />
-
-          <span className="text-xl font-semibold">
-            ArtTicket
-          </span>
-
-        </div>
-
-        <div className="flex items-center gap-8 text-sm text-gray-600">
-
-          <div
-            onClick={() => navigate("/")}
-            className="flex items-center gap-1 cursor-pointer hover:text-black"
-          >
-
-            <img src={homeIcon} className="w-4 h-4" />
-
-            Главная
-
-          </div>
-
-          <div
-            onClick={() => navigate("/support")}
-            className="flex items-center gap-1 cursor-pointer hover:text-black"
-          >
-
-            <img src={chatIcon} className="w-4 h-4" />
-
-            Чат
-
-          </div>
-
-          <div
-            onClick={() => {
-              localStorage.clear();
-              window.location.href = "/";
-            }}
-            className="flex items-center gap-1 cursor-pointer hover:text-black"
-          >
-
-            <img src={logoutIcon} className="w-4 h-4" />
-
-            Выйти
-
-          </div>
-
-        </div>
-      </div>
+      <Header />
 
       {/* CONTENT */}
-      <div className="px-14 py-10 flex gap-10 flex-1">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 px-4 lg:px-14 py-6 lg:py-10 flex-1">
 
         {/* SIDEBAR */}
-        <div className="w-[280px] bg-[#F5F5F5] rounded-2xl p-6">
+        <div className="w-full lg:w-[280px] bg-[#F5F5F5] rounded-2xl p-6 h-fit">
 
+          {/* USER */}
           <div className="flex flex-col items-center mb-8">
 
             <div className="w-24 h-24 rounded-full bg-[#8B2635] flex items-center justify-center text-white text-3xl">
@@ -182,14 +135,14 @@ export default function ProfilePage() {
 
             </div>
 
-            <p className="mt-4 font-medium text-base">
+            <p className="mt-4 font-medium text-base text-center">
 
               {user.firstName || "Иван"}{" "}
               {user.lastName || "Иванов"}
 
             </p>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 text-center break-all">
 
               {user.email || "ivan@example.com"}
 
@@ -197,19 +150,19 @@ export default function ProfilePage() {
 
           </div>
 
+          {/* КНОПКИ */}
           <div className="flex flex-col gap-3 text-sm">
 
             {/* МОИ БИЛЕТЫ */}
             <button
               onClick={() => setTab("tickets")}
-              className={`flex items-center gap-2 px-4 py-3 rounded-xl ${
-                tab === "tickets"
-                  ? "bg-[#8B2635]/40"
-                  : "bg-white hover:bg-[#8B2635]/40"
-              }`}
+              className={`flex items-center gap-3 px-4 py-4 rounded-2xl transition ${tab === "tickets"
+                ? "bg-[#8B2635]/40"
+                : "bg-white hover:bg-[#8B2635]/20"
+                }`}
             >
 
-              <img src={ticketsIcon} className="w-4 h-4" />
+              <img src={ticketsIcon} className="w-5 h-5" />
 
               Мои билеты
 
@@ -218,14 +171,13 @@ export default function ProfilePage() {
             {/* ИСТОРИЯ */}
             <button
               onClick={() => setTab("history")}
-              className={`flex items-center gap-2 px-4 py-3 rounded-xl ${
-                tab === "history"
-                  ? "bg-[#8B2635]/40"
-                  : "bg-white hover:bg-[#8B2635]/40"
-              }`}
+              className={`flex items-center gap-3 px-4 py-4 rounded-2xl transition ${tab === "history"
+                ? "bg-[#8B2635]/40"
+                : "bg-white hover:bg-[#8B2635]/20"
+                }`}
             >
 
-              <img src={historyIcon} className="w-4 h-4" />
+              <img src={historyIcon} className="w-5 h-5" />
 
               История
 
@@ -234,29 +186,31 @@ export default function ProfilePage() {
             {/* ЧАТ */}
             <button
               onClick={() => navigate("/support")}
-              className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white hover:bg-[#8B2635]/40"
+              className="flex items-center gap-3 px-4 py-4 rounded-2xl bg-white hover:bg-[#8B2635]/20 transition"
             >
 
-              <img src={chatIcon} className="w-4 h-4" />
+              <img src={chatIcon} className="w-5 h-5" />
 
               Чат поддержки
 
             </button>
 
           </div>
+
         </div>
 
         {/* MAIN */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
 
-          <h1 className="text-3xl font-semibold mb-10">
+          {/* TITLE */}
+          <h1 className="hidden lg:block text-3xl font-semibold mb-10">
             Личный кабинет
           </h1>
 
           {/* МОИ БИЛЕТЫ */}
           {tab === "tickets" && (
 
-            <div className="flex flex-col gap-6 max-w-[920px]">
+            <div className="flex flex-col gap-4 lg:gap-6 max-w-[920px]">
 
               {activeTickets?.length === 0 && (
                 <p className="text-gray-500">
@@ -268,67 +222,93 @@ export default function ProfilePage() {
 
                 <div
                   key={i}
-                  className="bg-[#F5F5F5] rounded-2xl p-8 relative"
+                  className="bg-[#F5F5F5] rounded-2xl p-4 lg:p-8 relative"
                 >
 
-                  <span className="absolute top-6 right-6 bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                  {/* СТАТУС */}
+                  <span className="absolute top-4 right-4 lg:top-6 lg:right-6 bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
 
                     {t.status}
 
                   </span>
 
-                  <p className="text-base font-medium">
+                  {/* НАЗВАНИЕ */}
+                  <p className="text-sm lg:text-base font-medium pr-24 leading-relaxed">
+
                     {t.exhibition}
+
                   </p>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  {/* МУЗЕЙ */}
+                  <p className="text-xs lg:text-sm text-gray-500 mt-1">
+
                     {t.museum}
+
                   </p>
 
-                  <div className="flex gap-16 mt-6 text-sm">
+                  {/* ИНФОРМАЦИЯ */}
+                  <div className="grid grid-cols-2 lg:flex lg:gap-16 gap-y-4 mt-6 text-sm">
 
                     <div>
-                      <p className="text-gray-400">
+
+                      <p className="text-gray-400 text-xs">
                         Дата
                       </p>
 
-                      <p>{t.date}</p>
+                      <p className="text-sm">
+                        {t.date}
+                      </p>
+
                     </div>
 
                     <div>
-                      <p className="text-gray-400">
+
+                      <p className="text-gray-400 text-xs">
                         Время
                       </p>
 
-                      <p>{t.time}</p>
+                      <p className="text-sm">
+                        {t.time}
+                      </p>
+
                     </div>
 
                     <div>
-                      <p className="text-gray-400">
+
+                      <p className="text-gray-400 text-xs">
                         Билетов
                       </p>
 
-                      <p>{t.count}</p>
+                      <p className="text-sm">
+                        {t.count}
+                      </p>
+
                     </div>
 
                     <div>
-                      <p className="text-gray-400">
+
+                      <p className="text-gray-400 text-xs">
                         Сумма
                       </p>
 
-                      <p>{t.price} ₽</p>
+                      <p className="text-sm">
+                        {t.price} ₽
+                      </p>
+
                     </div>
 
                   </div>
 
-                  <div className="h-[1px] bg-[#D4D4D4] my-6" />
+                  {/* ЛИНИЯ */}
+                  <div className="h-[1px] bg-[#D4D4D4] my-5 lg:my-6" />
 
+                  {/* КНОПКА */}
                   <button
                     onClick={() => {
                       setCurrentTicket(t);
                       setShowQR(true);
                     }}
-                    className="bg-[#8B2635] text-white px-5 py-2 rounded-lg text-sm"
+                    className="w-full lg:w-auto bg-[#8B2635] text-white px-5 py-3 lg:py-2 rounded-xl text-sm"
                   >
 
                     Показать QR-код
@@ -344,85 +324,135 @@ export default function ProfilePage() {
           {/* ИСТОРИЯ */}
           {tab === "history" && (
 
-            <div className="flex flex-col gap-6 max-w-[920px]">
+            <div className="max-w-[920px]">
 
+              {/* ЕСЛИ ИСТОРИИ НЕТ */}
               {historyTickets?.length === 0 && (
-                <p className="text-gray-500">
-                  История посещений пока пуста
-                </p>
-              )}
 
-              {historyTickets?.map((t: any, i: number) => (
+                <div className="bg-[#F5F5F5] rounded-2xl p-6 lg:p-8 border border-[#E3E3E3]">
 
-                <div
-                  key={i}
-                  className="bg-[#F5F5F5] rounded-2xl p-8 relative opacity-80"
-                >
+                  <h2 className="text-lg font-medium mb-4 text-center">
+                    История посещений
+                  </h2>
 
-                  <span className="absolute top-6 right-6 bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">
+                  <div className="bg-[#EFEFEF] border border-[#DDDDDD] rounded-2xl px-4 py-6 text-center">
 
-                    Посещён
-
-                  </span>
-
-                  <p className="text-base font-medium">
-                    {t.exhibition}
-                  </p>
-
-                  <p className="text-sm text-gray-500 mt-1">
-                    {t.museum}
-                  </p>
-
-                  <div className="flex gap-16 mt-6 text-sm">
-
-                    <div>
-                      <p className="text-gray-400">
-                        Дата
-                      </p>
-
-                      <p>{t.date}</p>
-                    </div>
-
-                    <div>
-                      <p className="text-gray-400">
-                        Время
-                      </p>
-
-                      <p>{t.time}</p>
-                    </div>
-
-                    <div>
-                      <p className="text-gray-400">
-                        Билетов
-                      </p>
-
-                      <p>{t.count}</p>
-                    </div>
-
-                    <div>
-                      <p className="text-gray-400">
-                        Сумма
-                      </p>
-
-                      <p>{t.price} ₽</p>
-                    </div>
+                    <p className="text-sm text-gray-500">
+                      История ваших посещений появится здесь
+                    </p>
 
                   </div>
 
                 </div>
-              ))}
+
+              )}
+
+              {/* ЕСЛИ ИСТОРИЯ ЕСТЬ */}
+              {historyTickets?.length > 0 && (
+
+                <div className="flex flex-col gap-4 lg:gap-6">
+
+                  {historyTickets?.map((t: any, i: number) => (
+
+                    <div
+                      key={i}
+                      className="bg-[#F5F5F5] rounded-2xl p-4 lg:p-8 relative opacity-80"
+                    >
+
+                      {/* СТАТУС */}
+                      <span className="absolute top-4 right-4 lg:top-6 lg:right-6 bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">
+
+                        Посещён
+
+                      </span>
+
+                      {/* НАЗВАНИЕ */}
+                      <p className="text-sm lg:text-base font-medium pr-24 leading-relaxed">
+
+                        {t.exhibition}
+
+                      </p>
+
+                      {/* МУЗЕЙ */}
+                      <p className="text-xs lg:text-sm text-gray-500 mt-1">
+
+                        {t.museum}
+
+                      </p>
+
+                      {/* ИНФА */}
+                      <div className="grid grid-cols-2 lg:flex lg:gap-16 gap-y-4 mt-6 text-sm">
+
+                        <div>
+
+                          <p className="text-gray-400 text-xs">
+                            Дата
+                          </p>
+
+                          <p className="text-sm">
+                            {t.date}
+                          </p>
+
+                        </div>
+
+                        <div>
+
+                          <p className="text-gray-400 text-xs">
+                            Время
+                          </p>
+
+                          <p className="text-sm">
+                            {t.time}
+                          </p>
+
+                        </div>
+
+                        <div>
+
+                          <p className="text-gray-400 text-xs">
+                            Билетов
+                          </p>
+
+                          <p className="text-sm">
+                            {t.count}
+                          </p>
+
+                        </div>
+
+                        <div>
+
+                          <p className="text-gray-400 text-xs">
+                            Сумма
+                          </p>
+
+                          <p className="text-sm">
+                            {t.price} ₽
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                  ))}
+
+                </div>
+
+              )}
 
             </div>
           )}
 
         </div>
+
       </div>
 
       {/* FOOTER */}
-      <div className="bg-black text-white px-12 py-10">
+      <div className="bg-black text-white px-4 lg:px-12 py-10">
 
-        <div className="grid grid-cols-3 gap-10 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
+          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -443,6 +473,7 @@ export default function ProfilePage() {
 
           </div>
 
+          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -467,6 +498,7 @@ export default function ProfilePage() {
 
           </div>
 
+          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -493,15 +525,17 @@ export default function ProfilePage() {
 
         </div>
 
+        {/* ЛИНИЯ */}
         <div className="h-[1px] bg-gray-800 mb-4" />
 
+        {/* COPYRIGHT */}
         <p className="text-center text-gray-500 text-sm">
           © 2026 ArtTicket
         </p>
 
       </div>
 
-      {/* QR MODAL */}
+      {/* QR */}
       {showQR && (
 
         <QrModal

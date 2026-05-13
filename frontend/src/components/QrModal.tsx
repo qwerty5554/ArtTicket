@@ -23,7 +23,7 @@ export const QrModal = ({ ticket, onClose }: any) => {
           </div>
         </div>
 
-        {/* 📄 ТЕКСТ */}
+        {/* ТЕКСТ */}
         <div className="text-[13px] leading-[1.4]">
 
           <p className="text-gray-400 mb-1">Выставка</p>
@@ -53,7 +53,7 @@ export const QrModal = ({ ticket, onClose }: any) => {
 
         </div>
 
-        {/* ⚠️ НИЖНИЙ БЛОК */}
+        {/*  НИЖНИЙ БЛОК */}
         <div className="bg-[#8B2635]/50 text-[#404040] text-[16px] text-center py-3 px-3 rounded-xl leading-[1.3] mt-auto">
           При входе предъявите QR-код с экрана телефона
           <br />

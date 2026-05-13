@@ -1,4 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
 import { Header } from "../components/Header";
 
 import logo from "../assets/images/logo.png";
@@ -7,7 +8,7 @@ import logo from "../assets/images/logo.png";
 import locationIcon from "../assets/images/location.png";
 import timeIcon from "../assets/images/clock.png";
 
-// КАРТИНКИ 
+// КАРТИНКИ
 import img1 from "../assets/images/tree.jpg";
 import img2 from "../assets/images/hermitage5.jpg";
 import img3 from "../assets/images/museum.jpg";
@@ -29,6 +30,10 @@ import img17 from "../assets/images/nikolai.jpg";
 export default function ExhibitionsPage() {
     const navigate = useNavigate();
 
+    // Текущая страница
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Массив выставок
     const exhibitions = [
         {
             title: "Современное искусство XXI века",
@@ -151,57 +156,108 @@ export default function ExhibitionsPage() {
         },
     ];
 
+    // Количество карточек на мобильной версии
+    const itemsPerPage = 3;
+
+    // Индексы
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // Выставки текущей страницы
+    const currentExhibitions = exhibitions.slice(startIndex, endIndex);
+
+    // Количество страниц
+    const totalPages = Math.ceil(exhibitions.length / itemsPerPage);
+
     return (
         <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
+            {/* HEADER */}
             <Header />
 
-            <div className="px-10 mt-4">
-                <button onClick={() => navigate(-1)} className="text-sm hover:opacity-70">
+            {/* НАЗАД */}
+            <div className="px-4 lg:px-10 mt-4 max-w-[420px] lg:max-w-none mx-auto w-full">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="text-sm hover:opacity-70"
+                >
                     ← Назад
                 </button>
             </div>
 
-            <div className="text-center mt-6 mb-10">
-                <h1 className="text-3xl font-semibold mb-2">Выставки</h1>
-                <p className="text-gray-500">
+            {/* TITLE */}
+            <div className="text-center mt-6 mb-10 px-4 max-w-[420px] lg:max-w-none mx-auto w-full">
+
+                <h1 className="text-2xl lg:text-3xl font-semibold mb-2">
+                    Выставки
+                </h1>
+
+                <p className="text-gray-500 text-sm lg:text-base">
                     Полный каталог актуальных выставок и экспозиций
                 </p>
+
             </div>
 
-            <div className="px-12 pb-16">
-                <div className="grid grid-cols-3 gap-8">
+            {/* КОНТЕЙНЕР */}
+            <div className="w-full max-w-[420px] lg:max-w-none mx-auto px-4 lg:px-12 pb-16">
 
-                    {exhibitions.map((item, i) => (
+                {/* МОБИЛЬНАЯ ВЕРСИЯ */}
+                <div className="grid grid-cols-1 lg:hidden gap-5">
+
+                    {currentExhibitions.map((item, i) => (
                         <div
                             key={i}
                             className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col"
                         >
 
-                            <img src={item.img} className="h-48 w-full object-cover" />
+                            {/* КАРТИНКА */}
+                            <img
+                                src={item.img}
+                                className="h-52 w-full object-cover"
+                            />
 
-                            <div className="p-5 flex flex-col flex-1">
+                            {/* КОНТЕНТ */}
+                            <div className="p-4 flex flex-col flex-1">
 
-                                <p className="text-sm font-medium mb-2">
+                                {/* НАЗВАНИЕ */}
+                                <p className="text-sm font-medium mb-3 leading-relaxed">
                                     {item.title}
                                 </p>
 
-                                <div className="flex items-center gap-1 text-xs text-gray-700 mb-2">
-                                    <img src={locationIcon} className="w-3 h-3" />
-                                    {item.place}
+                                {/* МЕСТО */}
+                                <div className="flex items-start gap-2 text-xs text-gray-700 mb-2">
+
+                                    <img
+                                        src={locationIcon}
+                                        className="w-3 h-3 mt-[2px]"
+                                    />
+
+                                    <span>{item.place}</span>
+
                                 </div>
 
-                                <div className="flex items-center gap-1 text-xs text-gray-600 mb-3">
-                                    <img src={timeIcon} className="w-3 h-3" />
-                                    {item.time}
+                                {/* ВРЕМЯ */}
+                                <div className="flex items-start gap-2 text-xs text-gray-600 mb-4">
+
+                                    <img
+                                        src={timeIcon}
+                                        className="w-3 h-3 mt-[2px]"
+                                    />
+
+                                    <span>{item.time}</span>
+
                                 </div>
 
                                 <div className="border-t border-[#D4D4D4] my-3"></div>
 
+                                {/* НИЖНЯЯ ЧАСТЬ */}
                                 <div className="flex justify-between items-end mt-auto">
 
                                     <div>
-                                        <p className="text-xs text-gray-400">от</p>
+                                        <p className="text-xs text-gray-400">
+                                            от
+                                        </p>
+
                                         <p className="text-xl font-semibold">
                                             {item.price}
                                         </p>
@@ -209,8 +265,14 @@ export default function ExhibitionsPage() {
 
                                     <button
                                         onClick={() => {
-                                            localStorage.setItem("currentExhibition", JSON.stringify(item)); 
-                                            navigate("/booking", { state: item });
+                                            localStorage.setItem(
+                                                "currentExhibition",
+                                                JSON.stringify(item)
+                                            );
+
+                                            navigate("/booking", {
+                                                state: item,
+                                            });
                                         }}
                                         className="bg-[#8B2635] text-white px-4 py-2 rounded-xl text-sm"
                                     >
@@ -225,38 +287,205 @@ export default function ExhibitionsPage() {
                     ))}
 
                 </div>
+
+                {/* DESKTOP ВЕРСИЯ */}
+                <div className="hidden lg:grid grid-cols-3 gap-8">
+
+                    {exhibitions.map((item, i) => (
+                        <div
+                            key={i}
+                            className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col"
+                        >
+
+                            <img
+                                src={item.img}
+                                className="h-48 w-full object-cover"
+                            />
+
+                            <div className="p-5 flex flex-col flex-1">
+
+                                <p className="text-sm font-medium mb-2">
+                                    {item.title}
+                                </p>
+
+                                <div className="flex items-center gap-1 text-xs text-gray-700 mb-2">
+
+                                    <img
+                                        src={locationIcon}
+                                        className="w-3 h-3"
+                                    />
+
+                                    {item.place}
+
+                                </div>
+
+                                <div className="flex items-center gap-1 text-xs text-gray-600 mb-3">
+
+                                    <img
+                                        src={timeIcon}
+                                        className="w-3 h-3"
+                                    />
+
+                                    {item.time}
+
+                                </div>
+
+                                <div className="border-t border-[#D4D4D4] my-3"></div>
+
+                                <div className="flex justify-between items-end mt-auto">
+
+                                    <div>
+                                        <p className="text-xs text-gray-400">
+                                            от
+                                        </p>
+
+                                        <p className="text-xl font-semibold">
+                                            {item.price}
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        onClick={() => {
+                                            localStorage.setItem(
+                                                "currentExhibition",
+                                                JSON.stringify(item)
+                                            );
+
+                                            navigate("/booking", {
+                                                state: item,
+                                            });
+                                        }}
+                                        className="bg-[#8B2635] text-white px-4 py-2 rounded-xl text-sm"
+                                    >
+                                        Купить
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    ))}
+
+                </div>
+
+                {/* PAGINATION */}
+                <div className="flex lg:hidden items-center justify-center gap-3 mt-8">
+
+                    {/* НАЗАД */}
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage((prev) => prev - 1)}
+                        className={`text-xl ${
+                            currentPage === 1
+                                ? "text-gray-300"
+                                : "text-[#8B2635]"
+                        }`}
+                    >
+                        ‹
+                    </button>
+
+                    {/* СТРАНИЦЫ */}
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentPage(index + 1)}
+                            className={`w-8 h-8 rounded-md text-sm transition ${
+                                currentPage === index + 1
+                                    ? "bg-[#8B2635] text-white"
+                                    : "border"
+                            }`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+
+                    {/* ВПЕРЕД */}
+                    <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                        className={`text-xl ${
+                            currentPage === totalPages
+                                ? "text-gray-300"
+                                : "text-[#8B2635]"
+                        }`}
+                    >
+                        ›
+                    </button>
+
+                </div>
+
             </div>
 
             {/* FOOTER */}
-            <div className="bg-black text-white px-12 py-10">
-                <div className="grid grid-cols-3 gap-10 mb-8">
+            <div className="bg-black text-white px-4 lg:px-12 py-10 mt-auto">
 
+                <div className="max-w-[420px] lg:max-w-none mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
+
+                    {/* ЛОГО */}
                     <div>
+
                         <div className="flex items-center gap-2 mb-3">
-                            <img src={logo} className="w-10 h-10" />
-                            <span className="font-semibold">ArtTicket</span>
+
+                            <img
+                                src={logo}
+                                className="w-10 h-10"
+                            />
+
+                            <span className="font-semibold">
+                                ArtTicket
+                            </span>
+
                         </div>
+
                         <p className="text-gray-400 text-sm">
                             Покупайте билеты в лучшие музеи и выставки онлайн
                         </p>
+
                     </div>
 
+                    {/* ПОМОЩЬ */}
                     <div>
-                        <p className="font-semibold mb-3">Помощь</p>
+
+                        <p className="font-semibold mb-3">
+                            Помощь
+                        </p>
+
                         <div className="text-gray-400 text-sm flex flex-col gap-2">
-                            <Link to="/faq">Часто задаваемые вопросы</Link>
-                            <Link to="/refund">Условия возврата</Link>
-                            <Link to="/rules">Правила посещения</Link>
+
+                            <Link to="/faq">
+                                Часто задаваемые вопросы
+                            </Link>
+
+                            <Link to="/refund">
+                                Условия возврата
+                            </Link>
+
+                            <Link to="/rules">
+                                Правила посещения
+                            </Link>
+
                         </div>
+
                     </div>
 
+                    {/* КОНТАКТЫ */}
                     <div>
-                        <p className="font-semibold mb-3">Контакты</p>
+
+                        <p className="font-semibold mb-3">
+                            Контакты
+                        </p>
+
                         <div className="text-gray-400 text-sm flex flex-col gap-1">
+
                             <span>Email: info@artticket.ru</span>
+
                             <span>Телефон: +7 (495) 123-45-67</span>
+
                             <span>Поддержка: support@artticket.ru</span>
+
                         </div>
+
                     </div>
 
                 </div>
@@ -266,6 +495,7 @@ export default function ExhibitionsPage() {
                 <p className="text-center text-gray-500 text-sm">
                     © 2026 ArtTicket
                 </p>
+
             </div>
 
         </div>

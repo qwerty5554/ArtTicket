@@ -10,6 +10,7 @@ import img2 from "../assets/images/tretyakov.jpg";
 import img3 from "../assets/images/gmii2.jpg";
 
 export default function TopMuseumsPage() {
+
     const navigate = useNavigate();
 
     const museums = [
@@ -31,13 +32,14 @@ export default function TopMuseumsPage() {
     ];
 
     return (
+
         <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
             {/* HEADER */}
             <Header />
 
             {/* FILTER */}
-            <div className="flex justify-center gap-20 py-6">
+            <div className="hidden lg:flex justify-center gap-20 py-6">
 
                 <button
                     onClick={() => navigate("/")}
@@ -63,47 +65,117 @@ export default function TopMuseumsPage() {
             </div>
 
             {/* HERO */}
-            <div className="px-10">
+            <div className="px-4 lg:px-10 mt-4 lg:mt-0">
+
                 <div
-                    className="rounded-2xl px-10 py-8 min-h-[250px] bg-cover bg-center"
+                    className="rounded-2xl overflow-hidden relative min-h-[420px] lg:min-h-[250px] bg-cover lg:bg-center bg-top"
                     style={{ backgroundImage: `url(${heroBg})` }}
                 >
 
-                    <button onClick={() => navigate(-1)} className="mb-6 text-sm">
-                        ← Назад
-                    </button>
+                    {/* OVERLAY */}
+                    <div className="absolute inset-0 bg-black/40"></div>
 
-                    <h1 className="text-3xl font-semibold mb-4 max-w-[800px]">
-                        Топ-3 музея, которые нужно посетить каждому
-                    </h1>
+                    {/* КОНТЕНТ */}
+                    <div className="relative z-10 px-5 lg:px-10 py-5 lg:py-8 text-white">
 
-                    <div className="bg-[#525252]/35 px-4 py-3 w-[800px] text-sm">
-                        Подборка самых знаменитых музеев мира, где собраны шедевры искусства и уникальные исторические артефакты. Эти места позволяют прикоснуться к культуре разных эпох и стран, увидеть подлинные произведения великих мастеров и глубже понять историю человечества.
+                        {/* НАЗАД */}
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="mb-6 text-sm bg-black/30 px-4 py-2 rounded-xl backdrop-blur-sm"
+                        >
+                            ← Назад
+                        </button>
+
+                        {/* TITLE */}
+                        <h1 className="text-3xl lg:text-3xl font-semibold mb-5 max-w-[800px] leading-tight">
+
+                            Топ-3 музея, которые нужно посетить каждому
+
+                        </h1>
+
+                        {/* ОПИСАНИЕ */}
+                        <div className="bg-[#525252]/40 backdrop-blur-sm px-5 py-5 rounded-2xl text-sm leading-5 lg:leading-5 max-w-[900px]">
+
+                            Подборка самых знаменитых музеев мира, где собраны
+                            шедевры искусства и уникальные исторические артефакты.
+                            Эти места позволяют прикоснуться к культуре разных эпох
+                            и стран, увидеть подлинные произведения великих мастеров
+                            и глубже понять историю человечества.
+
+                        </div>
+
                     </div>
 
                 </div>
+
             </div>
 
-            {/* GRID */}
-            <div className="px-12 py-10">
-                <div className="grid grid-cols-3 gap-8">
+            <div className="px-4 lg:px-12 py-8 lg:py-10">
+
+                {/* МОБИЛКА */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:hidden">
 
                     {museums.map((item, i) => (
-                        <div key={i} className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col">
 
-                            <img src={item.img} className="h-48 w-full object-cover" />
+                        <div
+                            key={i}
+                            className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col"
+                        >
 
+                            {/* КАРТИНКА */}
+                            <img
+                                src={item.img}
+                                className="h-56 w-full object-cover object-center"
+                            />
+
+                            {/* КОНТЕНТ */}
                             <div className="p-5 flex flex-col flex-1">
 
-                                <p className="text-sm font-medium mb-2">
+                                {/* TITLE */}
+                                <p className="text-sm font-medium mb-3 leading-relaxed">
+
                                     {item.title}
+
                                 </p>
 
-                                <p className="text-xs text-gray-700 mb-4 line-clamp-3">
+                                {/* ОПИСАНИЕ */}
+                                <p className="text-xs text-gray-700 mb-5 leading-2">
+
                                     {item.desc}
+
                                 </p>
 
-                                <button className="mt-auto bg-[#8B2635] text-white px-4 py-2 rounded-xl text-sm">
+                                {/* КНОПКА */}
+                                <button
+                                    onClick={() => {
+
+                                        if (item.title === "Эрмитаж") {
+                                            navigate("/museum", {
+                                                state: {
+                                                    title: "Эрмитаж"
+                                                }
+                                            });
+                                        }
+
+                                        if (item.title === "Третьяковская галерея") {
+                                            navigate("/museum", {
+                                                state: {
+                                                    title: "Третьяковская галерея"
+                                                }
+                                            });
+                                        }
+
+                                        if (item.title === "ГМИИ им. А.С. Пушкина") {
+                                            navigate("/museum", {
+                                                state: {
+                                                    title: "ГМИИ им. А.С. Пушкина"
+                                                }
+                                            });
+                                        }
+
+                                    }}
+                                    className="mt-auto bg-[#8B2635] text-white px-5 py-3 rounded-xl text-sm w-full"
+                                >
                                     Подробнее
                                 </button>
 
@@ -113,50 +185,169 @@ export default function TopMuseumsPage() {
                     ))}
 
                 </div>
+
+                {/* ПК */}
+                <div className="hidden lg:grid grid-cols-3 gap-8">
+
+                    {museums.map((item, i) => (
+
+                        <div
+                            key={i}
+                            className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col"
+                        >
+
+                            {/* КАРТИНКА */}
+                            <img
+                                src={item.img}
+                                className="h-48 w-full object-cover"
+                            />
+
+                            {/* КОНТЕНТ */}
+                            <div className="p-5 flex flex-col flex-1">
+
+                                {/* TITLE */}
+                                <p className="text-sm font-medium mb-2">
+
+                                    {item.title}
+
+                                </p>
+
+                                {/* ОПИСАНИЕ */}
+                                <p className="text-xs text-gray-700 mb-4 leading-4">
+
+                                    {item.desc}
+
+                                </p>
+
+                                {/* КНОПКА */}
+                                <button
+                                    onClick={() => {
+
+                                        if (item.title === "Эрмитаж") {
+                                            navigate("/museum", {
+                                                state: {
+                                                    title: "Эрмитаж"
+                                                }
+                                            });
+                                        }
+
+                                        if (item.title === "Третьяковская галерея") {
+                                            navigate("/museum", {
+                                                state: {
+                                                    title: "Третьяковская галерея"
+                                                }
+                                            });
+                                        }
+
+                                        if (item.title === "ГМИИ им. А.С. Пушкина") {
+                                            navigate("/museum", {
+                                                state: {
+                                                    title: "ГМИИ им. А.С. Пушкина"
+                                                }
+                                            });
+                                        }
+
+                                    }}
+                                    className="mt-auto bg-[#8B2635] text-white px-4 py-2 rounded-xl text-sm"
+                                >
+                                    Подробнее
+                                </button>
+
+                            </div>
+
+                        </div>
+                    ))}
+
+                </div>
+
             </div>
 
             {/* FOOTER */}
-            <div className="bg-black text-white px-12 py-10">
-                <div className="grid grid-cols-3 gap-10 mb-8">
+            <div className="bg-black text-white px-4 lg:px-12 py-10 mt-auto">
 
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
+
+                    {/* ЛОГО */}
                     <div>
+
                         <div className="flex items-center gap-2 mb-3">
+
                             <img src={logo} className="w-10 h-10" />
-                            <span className="font-semibold">ArtTicket</span>
+
+                            <span className="font-semibold">
+                                ArtTicket
+                            </span>
+
                         </div>
 
                         <p className="text-gray-400 text-sm">
+
                             Покупайте билеты в лучшие музеи и выставки онлайн
+
                         </p>
+
                     </div>
 
+                    {/* ПОМОЩЬ */}
                     <div>
-                        <p className="font-semibold mb-3">Помощь</p>
+
+                        <p className="font-semibold mb-3">
+                            Помощь
+                        </p>
 
                         <div className="text-gray-400 text-sm flex flex-col gap-2">
-                            <Link to="/faq">Часто задаваемые вопросы</Link>
-                            <Link to="/refund">Условия возврата</Link>
-                            <Link to="/rules">Правила посещения</Link>
+
+                            <Link to="/faq">
+                                Часто задаваемые вопросы
+                            </Link>
+
+                            <Link to="/refund">
+                                Условия возврата
+                            </Link>
+
+                            <Link to="/rules">
+                                Правила посещения
+                            </Link>
+
                         </div>
+
                     </div>
 
+                    {/* КОНТАКТЫ */}
                     <div>
-                        <p className="font-semibold mb-3">Контакты</p>
+
+                        <p className="font-semibold mb-3">
+                            Контакты
+                        </p>
 
                         <div className="text-gray-400 text-sm flex flex-col gap-1">
-                            <span>Email: info@artticket.ru</span>
-                            <span>Телефон: +7 (495) 123-45-67</span>
-                            <span>Поддержка: support@artticket.ru</span>
+
+                            <span>
+                                Email: info@artticket.ru
+                            </span>
+
+                            <span>
+                                Телефон: +7 (495) 123-45-67
+                            </span>
+
+                            <span>
+                                Поддержка: support@artticket.ru
+                            </span>
+
                         </div>
+
                     </div>
 
                 </div>
 
+                {/* ЛИНИЯ */}
                 <div className="h-[1px] bg-gray-800 mb-4" />
 
+                {/* COPYRIGHT */}
                 <p className="text-center text-gray-500 text-sm">
                     © 2026 ArtTicket
                 </p>
+
             </div>
 
         </div>

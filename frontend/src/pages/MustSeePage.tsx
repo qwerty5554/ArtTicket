@@ -13,6 +13,7 @@ import img4 from "../assets/images/skulp.jpg";
 import img5 from "../assets/images/gmii.jpg";
 
 export default function MustSeePage() {
+
     const navigate = useNavigate();
 
     const exhibitions = [
@@ -54,13 +55,14 @@ export default function MustSeePage() {
     ];
 
     return (
+
         <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
             {/* HEADER */}
             <Header />
 
-            {/* FILTER */}
-            <div className="flex justify-center gap-20 py-6">
+            {/* ФИЛЬТР */}
+            <div className="hidden lg:flex justify-center gap-20 py-6">
 
                 <button
                     onClick={() => navigate("/")}
@@ -86,114 +88,223 @@ export default function MustSeePage() {
             </div>
 
             {/* HERO */}
-            <div className="px-10">
+            <div className="px-4 lg:px-10 mt-4 lg:mt-0">
+
                 <div
-                    className="rounded-2xl px-10 py-8 min-h-[300px] bg-cover bg-center"
+                    className="rounded-2xl overflow-hidden relative min-h-[420px] lg:min-h-[300px] bg-cover lg:bg-center bg-top"
                     style={{ backgroundImage: `url(${heroBg})` }}
                 >
 
-                    <button onClick={() => navigate(-1)} className="mb-6 text-sm">
-                        ← Назад
-                    </button>
+                    {/* OVERLAY */}
+                    <div className="absolute inset-0 bg-black/40"></div>
 
-                    <h1 className="text-3xl font-semibold mb-4 max-w-[800px]">
-                        MUST SEE: 5 выставок, которые нельзя пропустить этим летом
-                    </h1>
+                    {/* КОНТЕНТ */}
+                    <div className="relative z-10 px-5 lg:px-10 py-5 lg:py-8 text-white">
 
-                    <div className="bg-[#525252]/35 px-4 py-3 w-[900px] text-sm">
-                        Самые значимые и резонансные выставки сезона. Эти экспозиции уже стали событиями культурной жизни города и получили восторженные отзывы критиков и посетителей.
+                        {/* НАЗАД */}
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="mb-6 text-sm bg-black/30 px-4 py-2 rounded-xl backdrop-blur-sm"
+                        >
+                            ← Назад
+                        </button>
+
+                        {/* TITLE */}
+                        <h1 className="text-3xl lg:text-3xl font-semibold mb-5 max-w-[850px] leading-tight">
+
+                            MUST SEE: 5 выставок, которые нельзя пропустить этим летом
+
+                        </h1>
+
+                        {/* ОПИСАНИЕ */}
+                        <div className="bg-[#525252]/40 backdrop-blur-sm px-5 py-5 rounded-2xl text-sm leading-8 lg:leading-7 max-w-[900px]">
+
+                            Самые значимые и резонансные выставки сезона.
+                            Эти экспозиции уже стали событиями культурной жизни города
+                            и получили восторженные отзывы критиков и посетителей.
+
+                        </div>
+
                     </div>
 
                 </div>
+
             </div>
 
-            {/* GRID */}
-            <div className="px-12 py-10">
-                <div className="grid grid-cols-3 gap-8">
+            <div className="px-4 lg:px-12 py-8 lg:py-10">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
                     {exhibitions.map((item, i) => (
-                        <div key={i} className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col">
 
-                            <img src={item.img} className="h-48 w-full object-cover" />
+                        <div
+                            key={i}
+                            className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col h-full"
+                        >
 
+                            {/* КАРТИНКА */}
+                            <img
+                                src={item.img}
+                                className="h-56 lg:h-48 w-full object-cover object-center"
+                            />
+
+                            {/* КОНТЕНТ */}
                             <div className="p-5 flex flex-col flex-1">
 
-                                <p className="text-sm font-medium mb-2">{item.title}</p>
+                                {/* TITLE */}
+                                <p className="text-base lg:text-sm font-medium mb-3 leading-relaxed min-h-[48px]">
 
-                                <div className="flex items-center gap-1 text-xs text-gray-700 mb-2">
-                                    <MapPin size={14} />
-                                    {item.place}
-                                </div>
+                                    {item.title}
 
-                                <p className="text-xs text-gray-700 mb-4 line-clamp-2">
-                                    {item.desc}
                                 </p>
 
-                                <div className="flex justify-between items-end mt-auto">
+                                {/* PLACE */}
+                                <div className="flex items-center gap-1 text-xs text-gray-700 mb-4">
 
-                                    <div>
-                                        <p className="text-xs text-gray-400">от</p>
-                                        <p className="text-xl font-semibold">{item.price}</p>
+                                    <MapPin size={14} />
+
+                                    <span className="leading-none">
+                                        {item.place}
+                                    </span>
+
+                                </div>
+
+                                {/* DESC */}
+                                <p className="text-sm lg:text-xs text-gray-700 leading-7 lg:leading-6 flex-1">
+
+                                    {item.desc}
+
+                                </p>
+
+                                {/* НИЗ */}
+                                <div className="flex items-center justify-between gap-4 mt-6">
+
+                                    {/* ЦЕНА */}
+                                    <div className="flex flex-col shrink-0">
+
+                                        <span className="text-xs text-gray-400">
+                                            от
+                                        </span>
+
+                                        <span className="text-2xl lg:text-xl font-semibold leading-none whitespace-nowrap">
+
+                                            {item.price}
+
+                                        </span>
+
                                     </div>
 
+                                    {/* КНОПКА */}
                                     <button
-                                        onClick={() => navigate("/booking", { state: item })}
-                                        className="bg-[#8B2635] text-white px-4 py-2 rounded-xl text-sm"
+                                        onClick={() =>
+                                            navigate("/booking", {
+                                                state: item
+                                            })
+                                        }
+                                        className="bg-[#8B2635] text-white h-[44px] px-6 rounded-xl text-sm min-w-[112px] flex items-center justify-center"
                                     >
+
                                         Купить
+
                                     </button>
 
                                 </div>
 
                             </div>
+
                         </div>
                     ))}
 
                 </div>
+
             </div>
 
             {/* FOOTER */}
-            <div className="bg-black text-white px-12 py-10">
-                <div className="grid grid-cols-3 gap-10 mb-8">
+            <div className="bg-black text-white px-4 lg:px-12 py-10 mt-auto">
 
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
+
+                    {/* ЛОГО */}
                     <div>
+
                         <div className="flex items-center gap-2 mb-3">
+
                             <img src={logo} className="w-10 h-10" />
-                            <span className="font-semibold">ArtTicket</span>
+
+                            <span className="font-semibold">
+                                ArtTicket
+                            </span>
+
                         </div>
 
                         <p className="text-gray-400 text-sm">
+
                             Покупайте билеты в лучшие музеи и выставки онлайн
+
                         </p>
+
                     </div>
 
+                    {/* ПОМОЩЬ */}
                     <div>
-                        <p className="font-semibold mb-3">Помощь</p>
+
+                        <p className="font-semibold mb-3">
+                            Помощь
+                        </p>
 
                         <div className="text-gray-400 text-sm flex flex-col gap-2">
-                            <Link to="/faq">Часто задаваемые вопросы</Link>
-                            <Link to="/refund">Условия возврата</Link>
-                            <Link to="/rules">Правила посещения</Link>
+
+                            <Link to="/faq">
+                                Часто задаваемые вопросы
+                            </Link>
+
+                            <Link to="/refund">
+                                Условия возврата
+                            </Link>
+
+                            <Link to="/rules">
+                                Правила посещения
+                            </Link>
+
                         </div>
+
                     </div>
 
+                    {/* КОНТАКТЫ */}
                     <div>
-                        <p className="font-semibold mb-3">Контакты</p>
+
+                        <p className="font-semibold mb-3">
+                            Контакты
+                        </p>
 
                         <div className="text-gray-400 text-sm flex flex-col gap-1">
-                            <span>Email: info@artticket.ru</span>
-                            <span>Телефон: +7 (495) 123-45-67</span>
-                            <span>Поддержка: support@artticket.ru</span>
+
+                            <span>
+                                Email: info@artticket.ru
+                            </span>
+
+                            <span>
+                                Телефон: +7 (495) 123-45-67
+                            </span>
+
+                            <span>
+                                Поддержка: support@artticket.ru
+                            </span>
+
                         </div>
+
                     </div>
 
                 </div>
 
+                {/* ЛИНИЯ */}
                 <div className="h-[1px] bg-gray-800 mb-4" />
 
+                {/* COPYRIGHT */}
                 <p className="text-center text-gray-500 text-sm">
                     © 2026 ArtTicket
                 </p>
+
             </div>
 
         </div>
