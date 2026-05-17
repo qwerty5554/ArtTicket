@@ -4,11 +4,9 @@ import { Header } from "../components/Header";
 
 import logo from "../assets/images/logo.png";
 
-// ИКОНКИ
 import locationIcon from "../assets/images/location.png";
 import timeIcon from "../assets/images/clock.png";
 
-// КАРТИНКИ
 import img1 from "../assets/images/ermitag.jpg";
 import img2 from "../assets/images/tretyakov.jpg";
 import img3 from "../assets/images/gmii2.jpg";
@@ -68,7 +66,6 @@ export default function MuseumsPage() {
         },
     ];
 
-    // Количество карточек на мобильной странице
     const itemsPerPage = 3;
 
     // Индексы текущей страницы
@@ -84,10 +81,8 @@ export default function MuseumsPage() {
     return (
         <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
-            {/* HEADER */}
             <Header />
 
-            {/* КНОПКА НАЗАД */}
             <div className="px-4 lg:px-10 mt-4 max-w-[420px] lg:max-w-none mx-auto w-full">
                 <button
                     onClick={() => navigate(-1)}
@@ -97,7 +92,6 @@ export default function MuseumsPage() {
                 </button>
             </div>
 
-            {/* ЗАГОЛОВОК */}
             <div className="text-center mt-5 mb-8 px-4 max-w-[420px] lg:max-w-none mx-auto w-full">
 
                 <h1 className="text-2xl lg:text-3xl font-semibold mb-2">
@@ -110,7 +104,6 @@ export default function MuseumsPage() {
 
             </div>
 
-            {/* КОНТЕЙНЕР */}
             <div className="w-full max-w-[420px] lg:max-w-none mx-auto px-4 lg:px-12 pb-12 lg:pb-16">
 
                 {/* МОБИЛЬНАЯ СЕТКА */}
@@ -122,13 +115,11 @@ export default function MuseumsPage() {
                             className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col"
                         >
 
-                            {/* ИЗОБРАЖЕНИЕ */}
                             <img
                                 src={item.img}
                                 className="h-52 w-full object-cover"
                             />
 
-                            {/* КОНТЕНТ */}
                             <div className="p-4 flex flex-col flex-1">
 
                                 <p className="font-medium text-sm mb-2">
@@ -139,7 +130,6 @@ export default function MuseumsPage() {
                                     {item.desc}
                                 </p>
 
-                                {/* АДРЕС */}
                                 <div className="flex items-start gap-2 text-xs text-gray-500 mb-2">
 
                                     <img
@@ -151,7 +141,6 @@ export default function MuseumsPage() {
 
                                 </div>
 
-                                {/* ВРЕМЯ */}
                                 <div className="flex items-start gap-2 text-xs text-gray-500 mb-5">
 
                                     <img
@@ -163,7 +152,6 @@ export default function MuseumsPage() {
 
                                 </div>
 
-                                {/* КНОПКА */}
                                 <button
                                     onClick={() =>
                                         navigate("/museum", {
@@ -191,13 +179,11 @@ export default function MuseumsPage() {
                             className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col"
                         >
 
-                            {/* ИЗОБРАЖЕНИЕ */}
                             <img
                                 src={item.img}
                                 className="h-44 w-full object-cover"
                             />
 
-                            {/* КОНТЕНТ */}
                             <div className="p-4 flex flex-col flex-1">
 
                                 <p className="font-medium mb-1">
@@ -208,7 +194,6 @@ export default function MuseumsPage() {
                                     {item.desc}
                                 </p>
 
-                                {/* АДРЕС */}
                                 <div className="flex items-center gap-1 text-xs text-gray-500 mb-1">
 
                                     <img
@@ -220,7 +205,6 @@ export default function MuseumsPage() {
 
                                 </div>
 
-                                {/* ВРЕМЯ */}
                                 <div className="flex items-center gap-1 text-xs text-gray-500 mb-4">
 
                                     <img
@@ -232,7 +216,6 @@ export default function MuseumsPage() {
 
                                 </div>
 
-                                {/* КНОПКА */}
                                 <button
                                     onClick={() =>
                                         navigate("/museum", {
@@ -251,10 +234,8 @@ export default function MuseumsPage() {
 
                 </div>
 
-                {/* PAGINATION */}
                 <div className="flex lg:hidden items-center justify-center gap-3 mt-8">
 
-                    {/* НАЗАД */}
                     <button
                         disabled={currentPage === 1}
                         onClick={() => setCurrentPage((prev) => prev - 1)}
@@ -267,7 +248,6 @@ export default function MuseumsPage() {
                         ‹
                     </button>
 
-                    {/* СТРАНИЦЫ */}
                     {Array.from({ length: totalPages }).map((_, index) => (
                         <button
                             key={index}
@@ -282,7 +262,6 @@ export default function MuseumsPage() {
                         </button>
                     ))}
 
-                    {/* ВПЕРЕД */}
                     <button
                         disabled={currentPage === totalPages}
                         onClick={() => setCurrentPage((prev) => prev + 1)}
@@ -299,12 +278,10 @@ export default function MuseumsPage() {
 
             </div>
 
-            {/* FOOTER */}
             <div className="bg-black text-white px-4 lg:px-12 py-10 mt-auto">
 
                 <div className="max-w-[420px] lg:max-w-none mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-                    {/* ЛОГО */}
                     <div>
 
                         <div className="flex items-center gap-2 mb-3">
@@ -326,7 +303,6 @@ export default function MuseumsPage() {
 
                     </div>
 
-                    {/* ПОМОЩЬ */}
                     <div>
 
                         <p className="font-semibold mb-3">
@@ -360,7 +336,6 @@ export default function MuseumsPage() {
 
                     </div>
 
-                    {/* КОНТАКТЫ */}
                     <div>
 
                         <p className="font-semibold mb-3">

@@ -55,13 +55,10 @@ export default function HomePage() {
   return (
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* CONTENT */}
       <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 py-6 md:py-10">
 
-        {/* TITLE */}
         <div className="text-center mb-8 md:mb-12">
 
           <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold mb-3 leading-tight">
@@ -74,7 +71,6 @@ export default function HomePage() {
 
         </div>
 
-        {/* FILTER */}
         <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-10 md:mb-14">
 
           <button
@@ -100,7 +96,6 @@ export default function HomePage() {
 
         </div>
 
-        {/* COLLECTIONS */}
         <section className="mb-12 md:mb-16">
 
           <h2 className="text-base md:text-xl font-semibold mb-5 md:mb-7 flex items-center gap-3">
@@ -140,7 +135,6 @@ export default function HomePage() {
 
         </section>
 
-        {/* EXHIBITIONS */}
         <section>
 
           <h2 className="text-base md:text-xl font-semibold mb-5 md:mb-7 flex items-center gap-3">
@@ -210,14 +204,12 @@ export default function HomePage() {
 
       </main>
 
-      {/* FOOTER */}
       <footer className="bg-[#111111] text-white mt-14">
 
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 py-10">
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
 
-            {/* LOGO */}
             <div>
 
               <div className="flex items-center gap-3 mb-4">
@@ -239,7 +231,6 @@ export default function HomePage() {
 
             </div>
 
-            {/* HELP */}
             <div>
 
               <p className="font-semibold mb-4">
@@ -264,7 +255,6 @@ export default function HomePage() {
 
             </div>
 
-            {/* CONTACTS */}
             <div>
 
               <p className="font-semibold mb-4">

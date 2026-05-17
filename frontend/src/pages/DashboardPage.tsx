@@ -61,10 +61,10 @@ const StatusBadge = ({
 
 export default function DashboardPage() {
 
-  // 🔥 ДАННЫЕ БРОНИРОВАНИЙ
+  // Данные бронирований
   const [tickets, setTickets] = useState<any[]>([]);
 
-  // 🔥 ЗАГРУЗКА ДАННЫХ С BACKEND
+  // Загрузка данных с backend
   useEffect(() => {
 
     const loadBookings = async () => {
@@ -98,7 +98,6 @@ export default function DashboardPage() {
 
     loadBookings();
 
-    // 🔥 ОБНОВЛЕНИЕ КАЖДЫЕ 2 СЕКУНДЫ
     const interval = setInterval(
       loadBookings,
       2000
@@ -108,21 +107,21 @@ export default function DashboardPage() {
 
   }, []);
 
-  // 🔥 ОБЩАЯ ВЫРУЧКА
+  // Общая выручка
   const totalMoney = tickets.reduce(
     (sum, t) =>
       sum + (t.price || 0),
     0
   );
 
-  // 🔥 ОБЩЕЕ КОЛ-ВО БИЛЕТОВ
+  // Общее крличество билетов
   const totalTickets = tickets.reduce(
     (sum, t) =>
       sum + (t.count || 0),
     0
   );
 
-  // 🔥 КОЛ-ВО ПОЛЬЗОВАТЕЛЕЙ
+  // Количество пользователей
   const totalUsers =
     new Set(
       tickets.map(
@@ -130,7 +129,7 @@ export default function DashboardPage() {
       )
     ).size;
 
-  // 🔥 КОЛ-ВО ВЫСТАВОК
+  // Количество выставок
   const totalExhibitions =
     new Set(
       tickets.map(
@@ -142,7 +141,6 @@ export default function DashboardPage() {
 
     <div>
 
-      {/* HEADER */}
       <div className="mb-6">
 
         <h1 className="text-2xl font-semibold mb-4">
@@ -153,7 +151,6 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* СТАТИСТИКА */}
       <div className="grid grid-cols-4 gap-6 mb-8">
 
         <StatCard
@@ -186,7 +183,6 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* ПОСЛЕДНИЕ БРОНИРОВАНИЯ */}
       <div className="bg-[#F5F5F5] rounded-2xl p-4">
 
         <div className="flex justify-between items-center mb-4">
@@ -263,14 +259,12 @@ export default function DashboardPage() {
                 className="border-t border-[#E5E5E5] hover:bg-[#eeeeee] transition"
               >
 
-                {/* ID */}
                 <td className="px-4 py-3">
 
                   {t.id}
 
                 </td>
 
-                {/* КЛИЕНТ */}
                 <td className="px-4 py-3">
 
                   <div className="font-medium">
@@ -283,35 +277,30 @@ export default function DashboardPage() {
 
                 </td>
 
-                {/* ВЫСТАВКА */}
                 <td className="px-4 py-3">
 
                   {t.exhibition}
 
                 </td>
 
-                {/* ДАТА */}
                 <td className="px-4 py-3">
 
                   {t.date} {t.time}
 
                 </td>
 
-                {/* БИЛЕТЫ */}
                 <td className="px-4 py-3">
 
                   {t.count}
 
                 </td>
 
-                {/* СУММА */}
                 <td className="px-4 py-3 font-medium">
 
                   {t.price} ₽
 
                 </td>
 
-                {/* СТАТУС */}
                 <td className="px-4 py-3">
 
                   <StatusBadge

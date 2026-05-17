@@ -5,7 +5,6 @@ import { Header } from "../components/Header";
 import logo from "../assets/images/logo.png";
 import heroBg from "../assets/images/fon3.png";
 
-// КАРТИНКИ
 import img1 from "../assets/images/hermitage1.jpg";
 import img2 from "../assets/images/hermitage2.jpg";
 import img3 from "../assets/images/hermitage3.jpg";
@@ -16,7 +15,6 @@ export default function HermitagePage() {
 
     const navigate = useNavigate();
 
-    // ТОЧКИ МАРШРУТА
     const places = [
 
         {
@@ -92,7 +90,6 @@ export default function HermitagePage() {
 
             </div>
 
-            {/* HERO */}
             <div className="px-4 lg:px-10 mt-4 lg:mt-0">
 
                 <div
@@ -106,13 +103,10 @@ export default function HermitagePage() {
                     }}
                 >
 
-                    {/* ЗАТЕМНЕНИЕ */}
                     <div className="absolute inset-0 bg-black/35"></div>
 
-                    {/* КОНТЕНТ */}
                     <div className="relative z-10">
 
-                        {/* НАЗАД */}
                         <button
                             onClick={() => navigate(-1)}
                             className="mb-6 text-sm text-white bg-black/30 px-3 py-1 rounded-xl backdrop-blur-sm"
@@ -120,14 +114,12 @@ export default function HermitagePage() {
                             ← Назад
                         </button>
 
-                        {/* TITLE */}
                         <h1 className="text-2xl lg:text-3xl text-white font-semibold mb-4 max-w-[900px] leading-tight">
 
                             Эрмитаж за один день: 5 точек на карте, которые вы запомните
 
                         </h1>
 
-                        {/* DESCRIPTION */}
                         <div className="bg-[#525252]/35 backdrop-blur-sm px-4 py-4 lg:py-3 w-full lg:w-[900px] text-sm text-white leading-relaxed rounded-2xl">
 
                             Первый поход в Эрмитаж легко превращается в растерянность: слишком много залов, слишком много искусства. Мы собрали маршрут по самым впечатляющим точкам.
@@ -140,7 +132,6 @@ export default function HermitagePage() {
 
             </div>
 
-            {/* КАРТОЧКИ */}
             <div className="px-4 lg:px-12 py-8 lg:py-10">
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 items-start">
@@ -152,23 +143,19 @@ export default function HermitagePage() {
                             className="bg-[#F5F5F5] rounded-2xl overflow-hidden flex flex-col h-fit"
                         >
 
-                            {/* IMAGE */}
                             <img
                                 src={item.img}
                                 className="h-56 lg:h-48 w-full object-cover object-center"
                             />
 
-                            {/* CONTENT */}
                             <div className="p-5 flex flex-col flex-1">
 
-                                {/* TITLE */}
                                 <p className="text-sm font-medium mb-2 leading-relaxed min-h-[44px]">
 
                                     {item.title}
 
                                 </p>
 
-                                {/* PLACE */}
                                 <div className="flex items-center gap-1 text-xs text-gray-700 mb-3">
 
                                     <MapPin size={14} />
@@ -177,17 +164,14 @@ export default function HermitagePage() {
 
                                 </div>
 
-                                {/* DESCRIPTION */}
                                 <p className="text-xs text-gray-700 mb-5 leading-relaxed lg:line-clamp-3">
 
                                     {item.desc}
 
                                 </p>
 
-                                {/* НИЖНЯЯ ЧАСТЬ */}
                                 <div className="flex items-end justify-between gap-3 mt-auto">
 
-                                    {/* ЦЕНА */}
                                     <div>
 
                                         <p className="text-xs text-gray-400">
@@ -202,7 +186,6 @@ export default function HermitagePage() {
 
                                     </div>
 
-                                    {/* КНОПКА */}
                                     <button
                                         onClick={() =>
                                             navigate("/booking", {
@@ -225,12 +208,10 @@ export default function HermitagePage() {
 
             </div>
 
-            {/* FOOTER */}
             <div className="bg-black text-white px-4 lg:px-12 py-10">
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-                    {/* ЛОГО */}
                     <div>
 
                         <div className="flex items-center gap-2 mb-3">
@@ -254,7 +235,6 @@ export default function HermitagePage() {
 
                     </div>
 
-                    {/* ПОМОЩЬ */}
                     <div>
 
                         <p className="font-semibold mb-3">
@@ -279,7 +259,6 @@ export default function HermitagePage() {
 
                     </div>
 
-                    {/* КОНТАКТЫ */}
                     <div>
 
                         <p className="font-semibold mb-3">
@@ -306,10 +285,8 @@ export default function HermitagePage() {
 
                 </div>
 
-                {/* ЛИНИЯ */}
                 <div className="h-[1px] bg-gray-800 mb-4" />
 
-                {/* COPYRIGHT */}
                 <p className="text-center text-gray-500 text-sm">
                     © 2026 ArtTicket
                 </p>

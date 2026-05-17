@@ -39,7 +39,6 @@ const handleLogout = () => {
           </div>
         </div>
 
-        {/* Кнопки */}
         <div className="flex flex-col gap-3 px-4 mt-6">
           <Link to="/admin" className={linkClass("/admin")}>
             Дашборд
@@ -55,7 +54,6 @@ const handleLogout = () => {
         </div>
       </div>
 
-      {/* Низ */}
       <div className="p-4 border-t border-gray-800">
         <button
           onClick={handleLogout}

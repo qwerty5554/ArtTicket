@@ -46,7 +46,6 @@ export const Header = () => {
 
         <div className="px-4 md:px-10 py-4 flex items-center justify-between">
 
-          {/* LOGO */}
           <div
             className="flex items-center gap-2 cursor-pointer shrink-0"
             onClick={() => navigate("/")}
@@ -57,10 +56,9 @@ export const Header = () => {
             </span>
           </div>
 
-          {/* DESKTOP */}
           <div className="hidden md:flex items-center gap-6 flex-1 justify-end relative">
 
-            {/* SEARCH */}
+            {/* поиск */}
             <div className="flex items-center gap-3 bg-[#F3F3F3] px-5 py-2 rounded-full w-[400px] relative">
 
               <img src={searchIcon} className="w-4 h-4 opacity-60" />
@@ -101,7 +99,6 @@ export const Header = () => {
 
             </div>
 
-            {/* AUTH */}
             {!isAuth ? (
               <button
                 onClick={() => setOpen(true)}
@@ -161,7 +158,6 @@ export const Header = () => {
             )}
           </div>
 
-          {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setMobileMenu(!mobileMenu)}
             className="md:hidden"
@@ -171,11 +167,10 @@ export const Header = () => {
 
         </div>
 
-        {/* MOBILE MENU */}
+        {/* мобильное меню */}
         {mobileMenu && (
           <div className="md:hidden px-4 pb-4 bg-white border-t">
 
-            {/* SEARCH */}
             <div className="flex items-center gap-3 bg-[#F3F3F3] px-4 py-3 rounded-2xl mb-4 mt-4 relative">
 
               <img src={searchIcon} className="w-4 h-4 opacity-60" />
@@ -189,7 +184,6 @@ export const Header = () => {
 
             </div>
 
-            {/* RESULTS */}
             {show && results.length > 0 && (
               <div className="bg-white rounded-2xl shadow mb-4 overflow-hidden border">
 

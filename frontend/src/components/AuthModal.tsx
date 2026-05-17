@@ -48,7 +48,7 @@ export const AuthModal = ({ onClose }: Props) => {
     return Object.keys(e).length === 0;
   };
 
-  // АВТО ЛОГИН ПОСЛЕ РЕГИСТРАЦИИ
+  // Автологин после рагистрации
   const handleLoginAfterRegister = async () => {
 
     try {
@@ -80,13 +80,12 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // TOKEN
+      // токен
       localStorage.setItem(
         "token",
         data.token
       );
 
-      // USER
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
@@ -119,7 +118,7 @@ export const AuthModal = ({ onClose }: Props) => {
     }
   };
 
-  // REGISTER
+  // регистрация
   const handleRegister = async () => {
 
     if (!validate()) return;
@@ -146,7 +145,7 @@ export const AuthModal = ({ onClose }: Props) => {
 
       const data = await response.json();
 
-      // ERROR
+      // ошибка
       if (!response.ok) {
 
         setErrors({
@@ -156,7 +155,7 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // АВТО ЛОГИН
+      // Автологин
       await handleLoginAfterRegister();
 
     } catch (err) {
@@ -166,10 +165,10 @@ export const AuthModal = ({ onClose }: Props) => {
     }
   };
 
-  // LOGIN
+  // логин
   const handleLogin = async () => {
 
-    // ADMIN
+    // админ
     if (
       loginData.email.trim().toLowerCase() ===
       "admin@artticket.ru" &&
@@ -205,7 +204,7 @@ export const AuthModal = ({ onClose }: Props) => {
 
       const data = await response.json();
 
-      // ERROR
+      // ошибки
       if (!response.ok) {
 
         setLoginError(
@@ -215,13 +214,11 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // TOKEN
       localStorage.setItem(
         "token",
         data.token
       );
 
-      // USER
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
@@ -262,10 +259,8 @@ export const AuthModal = ({ onClose }: Props) => {
 
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
 
-      {/* MODAL */}
       <div className="bg-[#8B2635] w-full max-w-[420px] rounded-3xl p-5 lg:p-6 text-white relative max-h-[90vh] overflow-y-auto">
 
-        {/* CLOSE */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-lg"
@@ -273,12 +268,10 @@ export const AuthModal = ({ onClose }: Props) => {
           ✕
         </button>
 
-        {/* TITLE */}
         <h2 className="text-xl mb-4">
           {tab === "login" ? "Вход" : "Регистрация"}
         </h2>
 
-        {/* TABS */}
         <div className="flex gap-6 border-b border-white/30 mb-5 text-sm">
 
           <button
@@ -305,7 +298,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
         </div>
 
-        {/* LOGIN */}
         {tab === "login" && (
 
           <div className="flex flex-col gap-4">
@@ -329,7 +321,7 @@ export const AuthModal = ({ onClose }: Props) => {
 
             </div>
 
-            {/* PASSWORD */}
+            {/* пароль */}
             <div>
 
               <p className="text-xs mb-1">
@@ -349,14 +341,12 @@ export const AuthModal = ({ onClose }: Props) => {
 
             </div>
 
-            {/* ERROR */}
             {loginError && (
               <p className="text-xs text-red-200">
                 {loginError}
               </p>
             )}
 
-            {/* BUTTON */}
             <button
               type="button"
               onClick={(e) => {
@@ -371,15 +361,13 @@ export const AuthModal = ({ onClose }: Props) => {
           </div>
         )}
 
-        {/* REGISTER */}
+        {/* регистрация */}
         {tab === "register" && (
 
           <div className="flex flex-col gap-4">
 
-            {/* NAME + LASTNAME */}
             <div className="flex flex-col sm:flex-row gap-3">
 
-              {/* NAME */}
               <div className="w-full">
 
                 <p className="text-xs mb-1">
@@ -404,7 +392,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
               </div>
 
-              {/* LASTNAME */}
               <div className="w-full">
 
                 <p className="text-xs mb-1">
@@ -430,8 +417,6 @@ export const AuthModal = ({ onClose }: Props) => {
               </div>
 
             </div>
-
-            {/* EMAIL */}
             <div>
 
               <p className="text-xs mb-1">
@@ -456,7 +441,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
             </div>
 
-            {/* PASSWORD */}
             <div>
 
               <p className="text-xs mb-1">
@@ -482,7 +466,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
             </div>
 
-            {/* CONFIRM */}
             <div>
 
               <p className="text-xs mb-1">
@@ -508,7 +491,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
             </div>
 
-            {/* BUTTON */}
             <button
               type="button"
               onClick={(e) => {

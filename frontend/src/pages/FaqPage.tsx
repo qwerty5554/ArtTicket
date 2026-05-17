@@ -105,10 +105,8 @@ export default function FaqPage() {
 
     <div className="bg-white min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* НАЗАД */}
       <div className="px-4 lg:px-12 mt-4">
 
         <button
@@ -120,7 +118,6 @@ export default function FaqPage() {
 
       </div>
 
-      {/* TITLE */}
       <div className="px-4 lg:px-12 mt-6 mb-8">
 
         <h1 className="text-xl lg:text-2xl font-semibold mb-2">
@@ -138,7 +135,6 @@ export default function FaqPage() {
 
       </div>
 
-      {/* FAQ */}
       <div className="px-4 lg:px-12 flex justify-center">
 
         <div className="flex flex-col gap-6 w-full max-w-[700px]">
@@ -194,7 +190,6 @@ export default function FaqPage() {
 
                     </button>
 
-                    {/* ANSWER */}
                     {openIndex === currentIndex && (
 
                       <div className="px-4 pb-5 text-sm text-gray-600 leading-6 bg-[#F5F5F5]">
@@ -216,12 +211,10 @@ export default function FaqPage() {
 
       </div>
 
-      {/* FOOTER */}
       <div className="bg-black text-white px-4 lg:px-12 py-10 mt-16">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -246,7 +239,6 @@ export default function FaqPage() {
 
           </div>
 
-          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -271,7 +263,6 @@ export default function FaqPage() {
 
           </div>
 
-          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -298,10 +289,8 @@ export default function FaqPage() {
 
         </div>
 
-        {/* ЛИНИЯ */}
         <div className="h-[1px] bg-gray-800 mb-4" />
 
-        {/* COPYRIGHT */}
         <p className="text-center text-gray-500 text-sm">
           © 2026 ArtTicket
         </p>

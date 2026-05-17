@@ -66,7 +66,6 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* HEADER */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-semibold">Чат</h1>
@@ -86,9 +85,8 @@ export default function ChatPage() {
         <div className="h-[1px] bg-[#E5E5E5]" />
       </div>
 
-      {/* ЧАТ */}
+      {/* чат */}
       <div className="flex-1 bg-[#F5F5F5] rounded-2xl p-4 flex flex-col">
-        {/* статус */}
         <div className="mb-4 pb-3 border-b border-[#E5E5E5]">
           <p className="text-sm font-medium">Служба поддержки</p>
           <p className="text-xs text-green-500">Онлайн</p>
@@ -110,7 +108,6 @@ export default function ChatPage() {
           ))}
         </div>
 
-        {/* нижний блок */}
         <div className="mt-4 border-t border-[#E5E5E5] pt-4">
           <div className="flex items-center gap-2 bg-white rounded-xl p-2 border border-gray-300">
 

@@ -3,7 +3,6 @@ import { Header } from "../components/Header";
 
 import logo from "../assets/images/logo.png";
 
-// ИКОНКИ
 import checkIcon from "../assets/images/check.png";
 import warningIcon from "../assets/images/clock (1).png";
 import closeIcon from "../assets/images/circle.png";
@@ -16,10 +15,8 @@ export default function RefundPage() {
 
     <div className="bg-white min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* НАЗАД */}
       <div className="px-4 lg:px-12 mt-4">
 
         <button
@@ -31,7 +28,6 @@ export default function RefundPage() {
 
       </div>
 
-      {/* TITLE */}
       <div className="px-4 lg:px-12 mt-6 mb-6">
 
         <h1 className="text-xl lg:text-2xl font-semibold mb-2 leading-tight">
@@ -49,12 +45,10 @@ export default function RefundPage() {
 
       </div>
 
-      {/* КОНТЕНТ */}
       <div className="px-4 lg:px-12 flex justify-center">
 
         <div className="flex flex-col gap-5 lg:gap-6 w-full max-w-[700px]">
 
-          {/* ОСНОВНЫЕ ПРАВИЛА */}
           <div className="bg-[#F5F5F5] rounded-2xl p-5 lg:p-6">
 
             <h2 className="text-center font-medium mb-6">
@@ -63,7 +57,6 @@ export default function RefundPage() {
 
             <div className="flex flex-col gap-5">
 
-              {/* ПОЛНЫЙ ВОЗВРАТ */}
               <div className="flex items-start gap-3">
 
                 <img
@@ -91,7 +84,6 @@ export default function RefundPage() {
 
               </div>
 
-              {/* ЧАСТИЧНЫЙ */}
               <div className="flex items-start gap-3">
 
                 <img
@@ -118,7 +110,6 @@ export default function RefundPage() {
 
               </div>
 
-              {/* НЕЛЬЗЯ */}
               <div className="flex items-start gap-3">
 
                 <img
@@ -149,7 +140,6 @@ export default function RefundPage() {
 
           </div>
 
-          {/* ОСОБЫЕ СЛУЧАИ */}
           <div className="bg-[#F5F5F5] rounded-2xl p-5 lg:p-6">
 
             <h2 className="text-center font-medium mb-6">
@@ -158,7 +148,6 @@ export default function RefundPage() {
 
             <div className="flex flex-col gap-5">
 
-              {/* ОТМЕНА */}
               <div className="flex items-start gap-3">
 
                 <div className="w-5 h-5 mt-[2px]" />
@@ -183,7 +172,6 @@ export default function RefundPage() {
 
               </div>
 
-              {/* ТЕХ ПРОБЛЕМЫ */}
               <div className="flex items-start gap-3">
 
                 <div className="w-5 h-5 mt-[2px]" />
@@ -216,12 +204,10 @@ export default function RefundPage() {
 
       </div>
 
-      {/* FOOTER */}
       <div className="bg-black text-white px-4 lg:px-12 py-10 mt-16">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -246,7 +232,6 @@ export default function RefundPage() {
 
           </div>
 
-          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -271,7 +256,6 @@ export default function RefundPage() {
 
           </div>
 
-          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -298,10 +282,8 @@ export default function RefundPage() {
 
         </div>
 
-        {/* ЛИНИЯ */}
         <div className="h-[1px] bg-gray-800 mb-4" />
 
-        {/* COPYRIGHT */}
         <p className="text-center text-gray-500 text-sm">
           © 2026 ArtTicket
         </p>

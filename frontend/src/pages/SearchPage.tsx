@@ -17,7 +17,6 @@ export default function SearchPage() {
 
       <Header />
 
-      {/* НАЗАД */}
       <div className="px-12 mt-4">
         <button onClick={() => navigate(-1)} className="text-sm">
           ← Назад

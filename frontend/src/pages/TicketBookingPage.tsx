@@ -14,7 +14,7 @@ export default function TicketBookingPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ВЫСТАВКА
+  // Выставка
   const savedExhibition = JSON.parse(
     localStorage.getItem("currentExhibition") || "null"
   );
@@ -24,10 +24,10 @@ export default function TicketBookingPage() {
     place: "Не выбрано",
   };
 
-  // STEP
+  // Шаг
   const [step, setStep] = useState(1);
 
-  // КАЛЕНДАРЬ
+  // Календарь
   const [monthIndex, setMonthIndex] = useState(4);
 
   const [selectedDay, setSelectedDay] =
@@ -36,11 +36,11 @@ export default function TicketBookingPage() {
   const [selectedTime, setSelectedTime] =
     useState("");
 
-  // БИЛЕТЫ
+  // Билеты
   const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);
 
-  // ОПЛАТА
+  // Оплата
   const [paymentMethod, setPaymentMethod] =
     useState("");
 
@@ -53,36 +53,33 @@ export default function TicketBookingPage() {
 
   const year = 2026;
 
-  // МЕСЯЦЫ
   const months = [
     "Январь", "Февраль", "Март", "Апрель",
     "Май", "Июнь", "Июль", "Август",
     "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
   ];
 
-  // ВРЕМЯ
   const times = [
     "10:00", "11:00", "12:00", "13:00",
     "14:00", "15:00", "16:00", "17:00",
     "18:00", "19:00", "20:00", "21:00"
   ];
 
-  // ДНИ
+  // Дни
   const daysInMonth = new Date(
     year,
     monthIndex + 1,
     0
   ).getDate();
 
-  // ПЕРВЫЙ ДЕНЬ
+  // Первый день
   const firstDay =
     (new Date(year, monthIndex, 1).getDay() + 6) % 7;
 
-  // ИТОГО
   const total =
     adult * 600 + child * 400;
 
-  // СМЕНА МЕСЯЦА
+  // Смена месяца
   const changeMonth = (dir: number) => {
 
     setMonthIndex(prev =>
@@ -94,12 +91,12 @@ export default function TicketBookingPage() {
     setSelectedTime("");
   };
 
-  // ПОЛНАЯ ДАТА
+  // Полная дата
   const fullDate = selectedDay
     ? `${selectedDay} ${months[monthIndex]} ${year}`
     : "";
 
-  // ПОКУПКА
+  // покупка
   const finishPayment = async () => {
 
     const user = JSON.parse(
@@ -109,7 +106,7 @@ export default function TicketBookingPage() {
     const token =
       localStorage.getItem("token");
 
-    // ПРОВЕРКА
+    // Проверка
     if (!token) {
 
       alert("Необходимо войти в аккаунт");
@@ -117,7 +114,7 @@ export default function TicketBookingPage() {
       return;
     }
 
-    // БИЛЕТ
+    // билет
     const ticket: any = {
 
       userEmail: user?.email || "",
@@ -217,10 +214,8 @@ export default function TicketBookingPage() {
   return (
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* НАЗАД */}
       <div className="px-4 lg:px-10 mt-4">
 
         <button
@@ -236,7 +231,6 @@ export default function TicketBookingPage() {
 
       </div>
 
-      {/* STEPS */}
       <div className="mt-6 mb-10 px-4">
 
         {/* DESKTOP */}
@@ -314,7 +308,6 @@ export default function TicketBookingPage() {
                     {s}
                   </div>
 
-                  {/* ТЕКСТ */}
                   <p
                     className={`mt-2 text-[10px] text-center leading-tight
                     ${step === s || step > s
@@ -333,7 +326,6 @@ export default function TicketBookingPage() {
 
                 </div>
 
-                {/* ЛИНИЯ */}
                 {i !== 2 && (
                   <div
                     className={`w-10 h-[2px] mx-1 mb-6 ${step > s
@@ -352,13 +344,11 @@ export default function TicketBookingPage() {
 
       </div>
 
-      {/* ОСНОВНОЙ КОНТЕЙНЕР */}
       <div className="flex flex-col lg:flex-row justify-center gap-6 px-4 lg:px-10 pb-10 max-w-[1200px] mx-auto w-full">
 
-        {/* ЛЕВАЯ ЧАСТЬ */}
         <div className="w-full max-w-[420px] lg:max-w-[600px] mx-auto">
 
-          {/* ВАШ ЗАКАЗ MOBILE */}
+          {/* ЗАКАЗ MOBILE */}
           <div className="lg:hidden bg-[#F5F5F5] rounded-2xl p-4 mb-4">
 
             <p className="text-sm text-gray-400 mb-2">
@@ -773,7 +763,6 @@ export default function TicketBookingPage() {
 
                 </div>
 
-                {/* INPUTS */}
                 <div className="flex flex-col gap-3 mb-6">
 
                   <input
@@ -924,7 +913,7 @@ export default function TicketBookingPage() {
 
         </div>
 
-        {/* DESKTOP SUMMARY */}
+        {/* DESKTOP  */}
         <div className="hidden lg:block bg-[#F5F5F5] rounded-2xl p-6 w-[320px] h-fit sticky top-24">
 
           <p className="text-sm text-gray-400 mb-2">
@@ -992,12 +981,10 @@ export default function TicketBookingPage() {
 
       </div>
 
-      {/* FOOTER */}
       <div className="bg-black text-white px-4 lg:px-12 py-10 mt-auto">
 
         <div className="max-w-[420px] lg:max-w-none mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -1019,7 +1006,6 @@ export default function TicketBookingPage() {
 
           </div>
 
-          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -1044,7 +1030,6 @@ export default function TicketBookingPage() {
 
           </div>
 
-          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">

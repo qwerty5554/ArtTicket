@@ -22,7 +22,7 @@ export default function BookingPage() {
 
   const [tickets, setTickets] = useState<any[]>([]);
 
-  // 🔥 загрузка бронирований из backend
+  // загрузка бронирований из backend
   useEffect(() => {
 
     const loadBookings = async () => {
@@ -70,7 +70,7 @@ export default function BookingPage() {
 
   }, []);
 
-  // 🔥 статистика
+  // статистика
   const total = tickets.reduce(
     (sum, t) => sum + (t.price || 0),
     0
@@ -89,7 +89,6 @@ export default function BookingPage() {
   return (
     <div>
 
-      {/* HEADER */}
       <div className="mb-6">
 
         <h1 className="text-2xl font-semibold mb-4">
@@ -100,7 +99,6 @@ export default function BookingPage() {
 
       </div>
 
-      {/* СТАТИСТИКА */}
       <div className="grid grid-cols-4 gap-6 mb-8">
 
         <div className="bg-[#F5F5F5] p-4 rounded-xl">
@@ -121,7 +119,6 @@ export default function BookingPage() {
 
       </div>
 
-      {/* ТАБЛИЦА */}
       <div className="bg-[#F5F5F5] rounded-2xl p-4">
 
         <table className="w-full text-sm">
@@ -173,12 +170,10 @@ export default function BookingPage() {
                 className="border-t border-gray-300 hover:bg-[#EEEEEE] transition"
               >
 
-                {/* ID */}
                 <td className="px-4 py-3">
                   {t.id}
                 </td>
 
-                {/* клиент */}
                 <td className="px-4 py-3">
 
                   <div>
@@ -191,27 +186,22 @@ export default function BookingPage() {
 
                 </td>
 
-                {/* выставка */}
                 <td className="px-4 py-3">
                   {t.exhibition}
                 </td>
 
-                {/* дата */}
                 <td className="px-4 py-3">
                   {t.date} {t.time}
                 </td>
 
-                {/* билеты */}
                 <td className="px-4 py-3">
                   {t.count}
                 </td>
 
-                {/* сумма */}
                 <td className="px-4 py-3">
                   {t.price} ₽
                 </td>
 
-                {/* статус */}
                 <td className="px-4 py-3">
 
                   <StatusBadge

@@ -3,11 +3,9 @@ import { Header } from "../components/Header";
 
 import logo from "../assets/images/logo.png";
 
-// ИКОНКИ
 import locationIcon from "../assets/images/location.png";
 import timeIcon from "../assets/images/clock.png";
 
-// HERO IMAGES
 import ermitagImg from "../assets/images/ermitag.jpg";
 import tretyakovImg from "../assets/images/tretyakov.jpg";
 import vdnkhImg from "../assets/images/vdnkh.jpg";
@@ -15,7 +13,6 @@ import garageImg from "../assets/images/garage.jpg";
 import historyImg from "../assets/images/history.jpg";
 import gmiiImg from "../assets/images/gmii2.jpg";
 
-// ВЫСТАВКИ
 import img1 from "../assets/images/hermitage1.jpg";
 import img2 from "../assets/images/hermitage2.jpg";
 import img3 from "../assets/images/hermitage3.jpg";
@@ -42,7 +39,6 @@ export default function MuseumDetailsPage() {
         title: "Эрмитаж"
     };
 
-    // ДАННЫЕ МУЗЕЕВ
     const museumsData: any = {
 
         "Эрмитаж": {
@@ -88,7 +84,6 @@ export default function MuseumDetailsPage() {
         },
     };
 
-    // ВЫСТАВКИ
     const exhibitionsByMuseum: any = {
 
         "Эрмитаж": [
@@ -138,21 +133,17 @@ export default function MuseumDetailsPage() {
 
             <Header />
 
-            {/* HERO */}
             <div className="px-4 lg:px-12 mt-4 lg:mt-6">
 
                 <div className="relative rounded-2xl overflow-hidden h-[420px] lg:h-[320px]">
 
-                    {/* КАРТИНКА */}
                     <img
                         src={data.img}
                         className="w-full h-full object-cover"
                     />
 
-                    {/* OVERLAY */}
                     <div className="absolute inset-0 bg-black/50"></div>
 
-                    {/* НАЗАД */}
                     <button
                         onClick={() => navigate(-1)}
                         className="absolute top-4 left-4 text-white text-sm z-10 bg-black/30 px-3 py-1 rounded-xl backdrop-blur-sm"
@@ -160,7 +151,6 @@ export default function MuseumDetailsPage() {
                         ← Назад
                     </button>
 
-                    {/* ТЕКСТ */}
                     <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 text-white z-10">
 
                         <h1 className="text-2xl lg:text-3xl font-semibold mb-3">
@@ -175,10 +165,8 @@ export default function MuseumDetailsPage() {
 
                 </div>
 
-                {/* ИНФОРМАЦИЯ */}
                 <div className="flex flex-col lg:flex-row gap-5 lg:gap-16 mt-6 text-sm text-gray-700">
 
-                    {/* АДРЕС */}
                     <div className="flex items-start gap-2">
 
                         <img
@@ -200,7 +188,6 @@ export default function MuseumDetailsPage() {
 
                     </div>
 
-                    {/* ВРЕМЯ */}
                     <div className="flex items-start gap-2">
 
                         <img
@@ -226,14 +213,12 @@ export default function MuseumDetailsPage() {
 
             </div>
 
-            {/* ВЫСТАВКИ */}
             <div className="px-4 lg:px-12 mt-8 lg:mt-10">
 
                 <h2 className="text-xl font-semibold mb-6">
                     Выставки
                 </h2>
 
-                {/* GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-start">
 
                     {exhibitions.map((item: any, i: number) => (
@@ -243,33 +228,27 @@ export default function MuseumDetailsPage() {
                             className="bg-white rounded-2xl p-4 shadow-sm flex flex-col h-fit"
                         >
 
-                            {/* КАРТИНКА */}
                             <img
                                 src={item.img}
                                 className="h-56 lg:h-32 w-full object-cover object-center rounded-xl mb-3"
                             />
 
-                            {/* НАЗВАНИЕ */}
                             <p className="text-sm font-medium mb-2 leading-relaxed min-h-[44px]">
 
                                 {item.title}
 
                             </p>
 
-                            {/* ДАТА */}
                             <p className="text-xs text-gray-400 mb-3">
 
                                 {item.date}
 
                             </p>
 
-                            {/* ЛИНИЯ */}
                             <div className="h-[1px] bg-gray-200 my-1"></div>
 
-                            {/* НИЖНЯЯ ЧАСТЬ */}
                             <div className="flex items-end justify-between gap-3 mt-auto">
 
-                                {/* ЦЕНА */}
                                 <div className="shrink-0">
 
                                     <p className="text-xs text-gray-400">
@@ -284,7 +263,6 @@ export default function MuseumDetailsPage() {
 
                                 </div>
 
-                                {/* КНОПКА */}
                                 <button
                                     onClick={() =>
                                         navigate("/booking", {
@@ -308,12 +286,10 @@ export default function MuseumDetailsPage() {
 
             </div>
 
-            {/* FOOTER */}
             <div className="bg-black text-white px-4 lg:px-12 py-10 mt-6">
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-                    {/* ЛОГО */}
                     <div>
 
                         <div className="flex items-center gap-2 mb-3">
@@ -334,7 +310,6 @@ export default function MuseumDetailsPage() {
 
                     </div>
 
-                    {/* ПОМОЩЬ */}
                     <div>
 
                         <p className="font-semibold mb-3">
@@ -359,7 +334,6 @@ export default function MuseumDetailsPage() {
 
                     </div>
 
-                    {/* КОНТАКТЫ */}
                     <div>
 
                         <p className="font-semibold mb-3">
@@ -386,10 +360,8 @@ export default function MuseumDetailsPage() {
 
                 </div>
 
-                {/* ЛИНИЯ */}
                 <div className="h-[1px] bg-gray-800 mb-4" />
 
-                {/* COPYRIGHT */}
                 <p className="text-center text-gray-500 text-sm">
                     © 2026 ArtTicket
                 </p>

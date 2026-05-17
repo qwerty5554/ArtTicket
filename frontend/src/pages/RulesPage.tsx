@@ -11,10 +11,8 @@ export default function RulesPage() {
 
     <div className="bg-white min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* НАЗАД */}
       <div className="px-4 lg:px-12 mt-4">
 
         <button
@@ -26,7 +24,6 @@ export default function RulesPage() {
 
       </div>
 
-      {/* TITLE */}
       <div className="px-4 lg:px-12 mt-6 mb-6">
 
         <h1 className="text-xl lg:text-2xl font-semibold mb-2">
@@ -44,12 +41,10 @@ export default function RulesPage() {
 
       </div>
 
-      {/* КОНТЕНТ */}
       <div className="px-4 lg:px-12 flex justify-center">
 
         <div className="flex flex-col gap-6 w-full max-w-[800px]">
 
-          {/* ОБЩИЕ ПРАВИЛА */}
           <div className="bg-[#F5F5F5] rounded-2xl p-5 lg:p-6">
 
             <h2 className="text-center font-medium mb-6">
@@ -58,7 +53,6 @@ export default function RulesPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-sm text-gray-700">
 
-              {/* ВРЕМЯ */}
               <div>
 
                 <p className="font-medium mb-1 text-black">
@@ -74,7 +68,6 @@ export default function RulesPage() {
 
               </div>
 
-              {/* ДОКУМЕНТЫ */}
               <div>
 
                 <p className="font-medium mb-1 text-black">
@@ -91,7 +84,6 @@ export default function RulesPage() {
 
               </div>
 
-              {/* ФОТО */}
               <div>
 
                 <p className="font-medium mb-1 text-black">
@@ -107,7 +99,6 @@ export default function RulesPage() {
 
               </div>
 
-              {/* ТИШИНА */}
               <div>
 
                 <p className="font-medium mb-1 text-black">
@@ -124,7 +115,6 @@ export default function RulesPage() {
 
               </div>
 
-              {/* ГАРДЕРОБ */}
               <div>
 
                 <p className="font-medium mb-1 text-black">
@@ -140,7 +130,6 @@ export default function RulesPage() {
 
               </div>
 
-              {/* ГРУППЫ */}
               <div>
 
                 <p className="font-medium mb-1 text-black">
@@ -160,7 +149,6 @@ export default function RulesPage() {
 
           </div>
 
-          {/* РАЗРЕШЕНО */}
           <div className="bg-[#F5F5F5] rounded-2xl p-5 lg:p-6">
 
             <h2 className="font-medium mb-4">
@@ -195,7 +183,6 @@ export default function RulesPage() {
 
           </div>
 
-          {/* ЗАПРЕЩЕНО */}
           <div className="bg-[#F5F5F5] rounded-2xl p-5 lg:p-6">
 
             <h2 className="font-medium mb-4">
@@ -240,12 +227,10 @@ export default function RulesPage() {
 
       </div>
 
-      {/* FOOTER */}
       <div className="bg-black text-white px-4 lg:px-12 py-10 mt-16">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -270,7 +255,6 @@ export default function RulesPage() {
 
           </div>
 
-          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -295,7 +279,6 @@ export default function RulesPage() {
 
           </div>
 
-          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -322,10 +305,8 @@ export default function RulesPage() {
 
         </div>
 
-        {/* ЛИНИЯ */}
         <div className="h-[1px] bg-gray-800 mb-4" />
 
-        {/* COPYRIGHT */}
         <p className="text-center text-gray-500 text-sm">
           © 2026 ArtTicket
         </p>

@@ -23,7 +23,7 @@ export default function SupportPage() {
   const [input, setInput] =
     useState("");
 
-  // ПОДКЛЮЧЕНИЕ WEBSOCKET
+  // Подключение WEBSOCKET
   useEffect(() => {
 
     ws.current = new WebSocket(
@@ -62,7 +62,7 @@ export default function SupportPage() {
 
   }, []);
 
-  // ОТПРАВКА СООБЩЕНИЯ
+  // Отправка сообщений
   const sendMessage = () => {
 
     if (!input.trim()) return;
@@ -99,10 +99,8 @@ export default function SupportPage() {
 
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* НАЗАД */}
       <div className="px-4 lg:px-12 mt-4">
 
         <button
@@ -114,7 +112,6 @@ export default function SupportPage() {
 
       </div>
 
-      {/* TITLE */}
       <div className="px-4 lg:px-12 mt-4 mb-6">
 
         <h1 className="text-xl lg:text-2xl font-semibold">
@@ -125,12 +122,10 @@ export default function SupportPage() {
 
       </div>
 
-      {/* ЧАТ */}
       <div className="px-4 lg:px-12 flex justify-center mb-10 flex-1">
 
         <div className="w-full max-w-[1200px] h-[75vh] lg:h-[650px] bg-[#F5F5F5] rounded-2xl p-4 lg:p-6 flex flex-col shadow-sm">
 
-          {/* HEADER */}
           <div className="mb-4 pb-3 border-b border-[#E5E5E5]">
 
             <p className="text-sm font-medium">
@@ -187,7 +182,6 @@ export default function SupportPage() {
 
           </div>
 
-          {/* INPUT */}
           <div className="mt-4 border-t border-[#E5E5E5] pt-4">
 
             <div className="flex items-center gap-2 bg-white rounded-2xl p-2 border border-gray-300">
@@ -210,7 +204,6 @@ export default function SupportPage() {
                 }}
               />
 
-              {/* КНОПКА */}
               <button
                 onClick={sendMessage}
                 className="p-3 border rounded-xl hover:bg-gray-100 transition flex-shrink-0"
@@ -228,12 +221,10 @@ export default function SupportPage() {
 
       </div>
 
-      {/* FOOTER */}
       <div className="bg-black text-white px-4 lg:px-12 py-10">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -259,7 +250,6 @@ export default function SupportPage() {
 
           </div>
 
-          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -284,7 +274,6 @@ export default function SupportPage() {
 
           </div>
 
-          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -311,10 +300,8 @@ export default function SupportPage() {
 
         </div>
 
-        {/* ЛИНИЯ */}
         <div className="h-[1px] bg-gray-800 mb-4" />
 
-        {/* COPYRIGHT */}
         <p className="text-center text-gray-500 text-sm">
           © 2026 ArtTicket
         </p>

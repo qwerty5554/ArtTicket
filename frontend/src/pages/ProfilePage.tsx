@@ -13,8 +13,6 @@ export default function ProfilePage() {
 
   const navigate = useNavigate();
 
-
-  // ТЕКУЩАЯ ВКЛАДКА
   const [tab, setTab] = useState("tickets");
 
   // QR
@@ -22,15 +20,13 @@ export default function ProfilePage() {
 
   const [currentTicket, setCurrentTicket] = useState<any>(null);
 
-  // ПОЛЬЗОВАТЕЛЬ
   const user = JSON.parse(
     localStorage.getItem("currentUser") || "{}"
   );
 
-  // БИЛЕТЫ
   const [tickets, setTickets] = useState<any[]>([]);
 
-  // ЗАГРУЗКА БИЛЕТОВ
+  // Загрузка билетов
   useEffect(() => {
 
     const loadTickets = async () => {
@@ -64,7 +60,7 @@ export default function ProfilePage() {
 
   }, []);
 
-  // АВТО QR ПОСЛЕ ПОКУПКИ
+  // Авто QR после покупки
   useEffect(() => {
 
     const justBought =
@@ -100,7 +96,6 @@ export default function ProfilePage() {
 
   }, [tickets]);
 
-  // АКТИВНЫЕ БИЛЕТЫ
   const activeTickets = tickets.filter(
     (ticket: any) =>
       ticket.status !== "Посещён"
@@ -116,16 +111,12 @@ export default function ProfilePage() {
 
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col">
 
-      {/* HEADER */}
       <Header />
 
-      {/* CONTENT */}
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 px-4 lg:px-14 py-6 lg:py-10 flex-1">
 
-        {/* SIDEBAR */}
         <div className="w-full lg:w-[280px] bg-[#F5F5F5] rounded-2xl p-6 h-fit">
 
-          {/* USER */}
           <div className="flex flex-col items-center mb-8">
 
             <div className="w-24 h-24 rounded-full bg-[#8B2635] flex items-center justify-center text-white text-3xl">
@@ -150,10 +141,8 @@ export default function ProfilePage() {
 
           </div>
 
-          {/* КНОПКИ */}
           <div className="flex flex-col gap-3 text-sm">
 
-            {/* МОИ БИЛЕТЫ */}
             <button
               onClick={() => setTab("tickets")}
               className={`flex items-center gap-3 px-4 py-4 rounded-2xl transition ${tab === "tickets"
@@ -168,7 +157,6 @@ export default function ProfilePage() {
 
             </button>
 
-            {/* ИСТОРИЯ */}
             <button
               onClick={() => setTab("history")}
               className={`flex items-center gap-3 px-4 py-4 rounded-2xl transition ${tab === "history"
@@ -199,15 +187,12 @@ export default function ProfilePage() {
 
         </div>
 
-        {/* MAIN */}
         <div className="flex-1 min-w-0">
 
-          {/* TITLE */}
           <h1 className="hidden lg:block text-3xl font-semibold mb-10">
             Личный кабинет
           </h1>
 
-          {/* МОИ БИЛЕТЫ */}
           {tab === "tickets" && (
 
             <div className="flex flex-col gap-4 lg:gap-6 max-w-[920px]">
@@ -225,28 +210,24 @@ export default function ProfilePage() {
                   className="bg-[#F5F5F5] rounded-2xl p-4 lg:p-8 relative"
                 >
 
-                  {/* СТАТУС */}
                   <span className="absolute top-4 right-4 lg:top-6 lg:right-6 bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
 
                     {t.status}
 
                   </span>
 
-                  {/* НАЗВАНИЕ */}
                   <p className="text-sm lg:text-base font-medium pr-24 leading-relaxed">
 
                     {t.exhibition}
 
                   </p>
 
-                  {/* МУЗЕЙ */}
                   <p className="text-xs lg:text-sm text-gray-500 mt-1">
 
                     {t.museum}
 
                   </p>
 
-                  {/* ИНФОРМАЦИЯ */}
                   <div className="grid grid-cols-2 lg:flex lg:gap-16 gap-y-4 mt-6 text-sm">
 
                     <div>
@@ -299,10 +280,8 @@ export default function ProfilePage() {
 
                   </div>
 
-                  {/* ЛИНИЯ */}
                   <div className="h-[1px] bg-[#D4D4D4] my-5 lg:my-6" />
 
-                  {/* КНОПКА */}
                   <button
                     onClick={() => {
                       setCurrentTicket(t);
@@ -326,7 +305,7 @@ export default function ProfilePage() {
 
             <div className="max-w-[920px]">
 
-              {/* ЕСЛИ ИСТОРИИ НЕТ */}
+              {/* Если истории нет */}
               {historyTickets?.length === 0 && (
 
                 <div className="bg-[#F5F5F5] rounded-2xl p-6 lg:p-8 border border-[#E3E3E3]">
@@ -347,7 +326,7 @@ export default function ProfilePage() {
 
               )}
 
-              {/* ЕСЛИ ИСТОРИЯ ЕСТЬ */}
+              {/* Если история есть  */}
               {historyTickets?.length > 0 && (
 
                 <div className="flex flex-col gap-4 lg:gap-6">
@@ -359,28 +338,24 @@ export default function ProfilePage() {
                       className="bg-[#F5F5F5] rounded-2xl p-4 lg:p-8 relative opacity-80"
                     >
 
-                      {/* СТАТУС */}
                       <span className="absolute top-4 right-4 lg:top-6 lg:right-6 bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">
 
                         Посещён
 
                       </span>
 
-                      {/* НАЗВАНИЕ */}
                       <p className="text-sm lg:text-base font-medium pr-24 leading-relaxed">
 
                         {t.exhibition}
 
                       </p>
 
-                      {/* МУЗЕЙ */}
                       <p className="text-xs lg:text-sm text-gray-500 mt-1">
 
                         {t.museum}
 
                       </p>
 
-                      {/* ИНФА */}
                       <div className="grid grid-cols-2 lg:flex lg:gap-16 gap-y-4 mt-6 text-sm">
 
                         <div>
@@ -447,12 +422,10 @@ export default function ProfilePage() {
 
       </div>
 
-      {/* FOOTER */}
       <div className="bg-black text-white px-4 lg:px-12 py-10">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8">
 
-          {/* ЛОГО */}
           <div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -473,7 +446,6 @@ export default function ProfilePage() {
 
           </div>
 
-          {/* ПОМОЩЬ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -498,7 +470,6 @@ export default function ProfilePage() {
 
           </div>
 
-          {/* КОНТАКТЫ */}
           <div>
 
             <p className="font-semibold mb-3">
@@ -525,10 +496,8 @@ export default function ProfilePage() {
 
         </div>
 
-        {/* ЛИНИЯ */}
         <div className="h-[1px] bg-gray-800 mb-4" />
 
-        {/* COPYRIGHT */}
         <p className="text-center text-gray-500 text-sm">
           © 2026 ArtTicket
         </p>

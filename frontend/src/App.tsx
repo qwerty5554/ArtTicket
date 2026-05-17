@@ -30,12 +30,10 @@ export default function App() {
   return (
     <Routes>
 
-      {/* ГЛАВНАЯ */}
       <Route path="/" element={<HomePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/profile" element={<ProfilePage />} />
 
-      {/* ПОДБОРКИ */}
       <Route path="/must-see" element={<MustSeePage />} />
       <Route path="/top-museums" element={<TopMuseumsPage />} />
       <Route path="/hermitage-day" element={<HermitagePage />} />
@@ -49,12 +47,10 @@ export default function App() {
 
       <Route path="/support" element={<SupportPage />} />
 
-      {/* СПРАВКА */}
       <Route path="/faq" element={<FaqPage />} />
       <Route path="/refund" element={<RefundPage />} />
       <Route path="/rules" element={<RulesPage />} />
 
-      {/* АДМИНКА */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="bookings" element={<BookingPage />} />
