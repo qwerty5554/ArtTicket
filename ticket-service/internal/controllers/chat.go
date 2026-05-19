@@ -7,6 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ChatWebSocket godoc
+// @Summary WebSocket чат поддержки
+// @Tags chat
+// @Produce json
+// @Router /ws/chat [get]
 func ChatWebSocket(c *gin.Context) {
 
 	conn, err := infrastructure.Upgrader.Upgrade(

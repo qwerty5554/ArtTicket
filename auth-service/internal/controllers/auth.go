@@ -15,15 +15,14 @@ import (
 )
 
 // Register godoc
-// @Summary Register user
-// @Description create new user
+// @Summary Регистрация пользователя
+// @Description Создание нового аккаунта
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param user body map[string]string true "User"
+// @Param user body entities.User true "User"
 // @Success 200 {object} map[string]interface{}
 // @Router /register [post]
-
 func Register(c *gin.Context) {
 
 	var user entities.User
@@ -132,15 +131,14 @@ func Register(c *gin.Context) {
 }
 
 // Login godoc
-// @Summary Login user
-// @Description login user
+// @Summary Авторизация
+// @Description Вход пользователя
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param data body map[string]string true "Login"
+// @Param user body entities.User true "User"
 // @Success 200 {object} map[string]interface{}
 // @Router /login [post]
-
 func Login(c *gin.Context) {
 
 	var data struct {

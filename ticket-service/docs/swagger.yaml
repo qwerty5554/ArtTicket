@@ -1,9 +1,120 @@
 basePath: /
-host: localhost:8080
+definitions:
+  artticket-backend_internal_entities.Ticket:
+    properties:
+      count:
+        type: integer
+      date:
+        type: string
+      exhibition:
+        type: string
+      id:
+        type: integer
+      museum:
+        type: string
+      name:
+        type: string
+      place:
+        type: string
+      price:
+        type: integer
+      status:
+        type: string
+      time:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+      userEmail:
+        type: string
+    type: object
+  artticket-backend_internal_repositories.AdminTicket:
+    properties:
+      client:
+        type: string
+      count:
+        type: integer
+      date:
+        type: string
+      email:
+        type: string
+      exhibition:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      status:
+        type: string
+      time:
+        type: string
+    type: object
+host: localhost:8082
 info:
   contact: {}
   description: Backend for ArtTicket
   title: ArtTicket API
   version: "1.0"
-paths: {}
+paths:
+  /admin/bookings:
+    get:
+      description: Список всех билетов для администратора
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/artticket-backend_internal_repositories.AdminTicket'
+            type: array
+      summary: Получить все бронирования
+      tags:
+      - admin
+  /tickets:
+    post:
+      consumes:
+      - application/json
+      description: Создание нового билета
+      parameters:
+      - description: Ticket
+        in: body
+        name: ticket
+        required: true
+        schema:
+          $ref: '#/definitions/artticket-backend_internal_entities.Ticket'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Создать билет
+      tags:
+      - tickets
+  /tickets/my:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/artticket-backend_internal_entities.Ticket'
+            type: array
+      summary: Получить мои билеты
+      tags:
+      - tickets
+  /ws/chat:
+    get:
+      produces:
+      - application/json
+      responses: {}
+      summary: WebSocket чат поддержки
+      tags:
+      - chat
 swagger: "2.0"

@@ -1,9 +1,71 @@
 basePath: /
-host: localhost:8080
+definitions:
+  artticket-backend_internal_entities.User:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+host: localhost:8081
 info:
   contact: {}
   description: Backend for ArtTicket
   title: ArtTicket API
   version: "1.0"
-paths: {}
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Вход пользователя
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/artticket-backend_internal_entities.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Авторизация
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Создание нового аккаунта
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/artticket-backend_internal_entities.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Регистрация пользователя
+      tags:
+      - auth
 swagger: "2.0"

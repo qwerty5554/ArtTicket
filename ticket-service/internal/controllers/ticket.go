@@ -12,6 +12,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateTicket godoc
+// @Summary Создать билет
+// @Description Создание нового билета
+// @Tags tickets
+// @Accept json
+// @Produce json
+// @Param ticket body entities.Ticket true "Ticket"
+// @Success 200 {object} map[string]interface{}
+// @Router /tickets [post]
 func CreateTicket(c *gin.Context) {
 
 	var ticket entities.Ticket
@@ -52,6 +61,12 @@ func CreateTicket(c *gin.Context) {
 	})
 }
 
+// GetMyTickets godoc
+// @Summary Получить мои билеты
+// @Tags tickets
+// @Produce json
+// @Success 200 {array} entities.Ticket
+// @Router /tickets/my [get]
 func GetMyTickets(c *gin.Context) {
 
 	userID := c.GetInt("user_id")
@@ -72,6 +87,13 @@ func GetMyTickets(c *gin.Context) {
 	c.JSON(http.StatusOK, tickets)
 }
 
+// GetAdminBookings godoc
+// @Summary Получить все бронирования
+// @Description Список всех билетов для администратора
+// @Tags admin
+// @Produce json
+// @Success 200 {array} repositories.AdminTicket
+// @Router /admin/bookings [get]
 func GetAdminBookings(c *gin.Context) {
 
 	tickets, err :=
