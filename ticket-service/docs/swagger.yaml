@@ -69,6 +69,8 @@ paths:
             items:
               $ref: '#/definitions/artticket-backend_internal_repositories.AdminTicket'
             type: array
+      security:
+      - BearerAuth: []
       summary: Получить все бронирования
       tags:
       - admin
@@ -92,6 +94,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Создать билет
       tags:
       - tickets
@@ -106,6 +110,8 @@ paths:
             items:
               $ref: '#/definitions/artticket-backend_internal_entities.Ticket'
             type: array
+      security:
+      - BearerAuth: []
       summary: Получить мои билеты
       tags:
       - tickets
@@ -117,4 +123,9 @@ paths:
       summary: WebSocket чат поддержки
       tags:
       - chat
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

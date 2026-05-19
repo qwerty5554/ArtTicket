@@ -1,10 +1,14 @@
-package main
-
 // @title ArtTicket API
 // @version 1.0
 // @description Backend for ArtTicket
+
 // @host localhost:8082
 // @BasePath /
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+package main
 
 import (
 	_ "artticket-backend/docs"

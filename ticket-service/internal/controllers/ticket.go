@@ -16,6 +16,7 @@ import (
 // @Summary Создать билет
 // @Description Создание нового билета
 // @Tags tickets
+// @Security BearerAuth
 // @Accept json
 // @Produce json
 // @Param ticket body entities.Ticket true "Ticket"
@@ -64,6 +65,7 @@ func CreateTicket(c *gin.Context) {
 // GetMyTickets godoc
 // @Summary Получить мои билеты
 // @Tags tickets
+// @Security BearerAuth
 // @Produce json
 // @Success 200 {array} entities.Ticket
 // @Router /tickets/my [get]
@@ -91,6 +93,7 @@ func GetMyTickets(c *gin.Context) {
 // @Summary Получить все бронирования
 // @Description Список всех билетов для администратора
 // @Tags admin
+// @Security BearerAuth
 // @Produce json
 // @Success 200 {array} repositories.AdminTicket
 // @Router /admin/bookings [get]

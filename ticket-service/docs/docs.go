@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/admin/bookings": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Список всех билетов для администратора",
                 "produces": [
                     "application/json"
@@ -40,6 +45,11 @@ const docTemplate = `{
         },
         "/tickets": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Создание нового билета",
                 "consumes": [
                     "application/json"
@@ -75,6 +85,11 @@ const docTemplate = `{
         },
         "/tickets/my": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -184,6 +199,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

@@ -1,11 +1,9 @@
-package main
-
 // @title ArtTicket API
 // @version 1.0
 // @description Backend for ArtTicket
 // @host localhost:8081
 // @BasePath /
-
+package main
 import (
 	_ "artticket-backend/docs"
 
