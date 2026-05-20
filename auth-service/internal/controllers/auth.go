@@ -4,15 +4,16 @@ import (
 	"net/http"
 
 	"artticket-backend/internal/entities"
-	"artticket-backend/internal/repositories"
+	"artticket-backend/internal/usecases"
 
-	jwtservice "github.com/qwerty5554/ArtTicket/shared/jwt"
 	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"golang.org/x/crypto/bcrypt"
 )
+
+var authUsecase =
+	usecases.NewAuthUsecase()
 
 // Register godoc
 // @Summary Регистрация пользователя
@@ -41,35 +42,13 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	user.Role = "user"
-
-	hashedPassword, err := bcrypt.GenerateFromPassword(
-		[]byte(user.Password),
-		bcrypt.DefaultCost,
-	)
+	token, createdUser, err :=
+		authUsecase.Register(user)
 
 	if err != nil {
 
 		loggerservice.Logger.Error(
-			"password hash error",
-			zap.Error(err),
-		)
-
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "password hash error",
-		})
-
-		return
-	}
-
-	user.Password = string(hashedPassword)
-
-	err = repositories.CreateUser(user)
-
-	if err != nil {
-
-		loggerservice.Logger.Error(
-			"create user error",
+			"register error",
 			zap.Error(err),
 		)
 
@@ -79,50 +58,6 @@ func Register(c *gin.Context) {
 
 		return
 	}
-
-	createdUser, err := repositories.GetUserByEmail(
-		user.Email,
-	)
-
-	if err != nil {
-
-		loggerservice.Logger.Error(
-			"user fetch error",
-			zap.Error(err),
-		)
-
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "user fetch error",
-		})
-
-		return
-	}
-
-	token, err := jwtservice.GenerateToken(
-		createdUser.ID,
-		createdUser.Role,
-	)
-
-	if err != nil {
-
-		loggerservice.Logger.Error(
-			"token generation error",
-			zap.Error(err),
-		)
-
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "token error",
-		})
-
-		return
-	}
-
-	createdUser.Password = ""
-
-	loggerservice.Logger.Info(
-		"user registered",
-		zap.String("email", user.Email),
-	)
 
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,
@@ -160,68 +95,25 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	user, err := repositories.GetUserByEmail(
-		data.Email,
-	)
+	token, user, err :=
+		authUsecase.Login(
+			data.Email,
+			data.Password,
+		)
 
 	if err != nil {
 
 		loggerservice.Logger.Error(
-			"user not found",
+			"login error",
 			zap.Error(err),
 		)
 
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "user not found",
+			"error": err.Error(),
 		})
 
 		return
 	}
-
-	err = bcrypt.CompareHashAndPassword(
-		[]byte(user.Password),
-		[]byte(data.Password),
-	)
-
-	if err != nil {
-
-		loggerservice.Logger.Error(
-			"wrong password",
-			zap.Error(err),
-		)
-
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "wrong password",
-		})
-
-		return
-	}
-
-	token, err := jwtservice.GenerateToken(
-		user.ID,
-		user.Role,
-	)
-
-	if err != nil {
-
-		loggerservice.Logger.Error(
-			"token generation error",
-			zap.Error(err),
-		)
-
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "token error",
-		})
-
-		return
-	}
-
-	user.Password = ""
-
-	loggerservice.Logger.Info(
-		"user login",
-		zap.String("email", user.Email),
-	)
 
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,

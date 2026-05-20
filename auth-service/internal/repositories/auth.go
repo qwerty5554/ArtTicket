@@ -8,9 +8,9 @@ import (
 func CreateUser(user entities.User) error {
 
 	query := `
-	INSERT INTO users(first_name, last_name, email, password, role)
-	VALUES($1,$2,$3,$4,$5)
-	`
+INSERT INTO users(first_name, last_name, email, password, role)
+VALUES($1,$2,$3,$4,$5)
+`
 
 	_, err := infrastructure.DB.Exec(
 		query,
@@ -24,15 +24,20 @@ func CreateUser(user entities.User) error {
 	return err
 }
 
-func GetUserByEmail(email string) (*entities.User, error) {
+func GetUserByEmail(
+	email string,
+) (entities.User, error) {
 
 	query := `
-	SELECT id, first_name, last_name, email, password, role
-	FROM users
-	WHERE email=$1
-	`
+SELECT id, first_name, last_name, email, password, role
+FROM users
+WHERE email=$1
+`
 
-	row := infrastructure.DB.QueryRow(query, email)
+	row := infrastructure.DB.QueryRow(
+		query,
+		email,
+	)
 
 	var user entities.User
 
@@ -46,8 +51,8 @@ func GetUserByEmail(email string) (*entities.User, error) {
 	)
 
 	if err != nil {
-		return nil, err
+		return entities.User{}, err
 	}
 
-	return &user, nil
+	return user, nil
 }

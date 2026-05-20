@@ -1,22 +1,25 @@
 package controllers
 
 import (
-	"go.uber.org/zap"
+	"fmt"
 	"net/http"
 
 	"artticket-backend/internal/entities"
-	"artticket-backend/internal/repositories"
+	"artticket-backend/internal/usecases"
+
 	loggerservice "github.com/qwerty5554/ArtTicket/shared/logger"
 
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
+
+var ticketUsecase =
+	usecases.NewTicketUsecase()
 
 // CreateTicket godoc
 // @Summary Создать билет
 // @Description Создание нового билета
 // @Tags tickets
-// @Security BearerAuth
 // @Accept json
 // @Produce json
 // @Param ticket body entities.Ticket true "Ticket"
@@ -36,14 +39,19 @@ func CreateTicket(c *gin.Context) {
 	}
 
 	userID := c.GetInt("user_id")
+
 	fmt.Println("USER ID:", userID)
 	fmt.Println("TICKET:", ticket)
 
 	ticket.UserID = userID
 
-	ticketID, err := repositories.CreateTicket(ticket)
+	ticketID, err :=
+		ticketUsecase.CreateTicket(
+			ticket,
+		)
 
 	if err != nil {
+
 		loggerservice.Logger.Error(
 			"create ticket error",
 			zap.Error(err),
@@ -65,7 +73,6 @@ func CreateTicket(c *gin.Context) {
 // GetMyTickets godoc
 // @Summary Получить мои билеты
 // @Tags tickets
-// @Security BearerAuth
 // @Produce json
 // @Success 200 {array} entities.Ticket
 // @Router /tickets/my [get]
@@ -73,9 +80,10 @@ func GetMyTickets(c *gin.Context) {
 
 	userID := c.GetInt("user_id")
 
-	tickets, err := repositories.GetTicketsByUserID(
-		userID,
-	)
+	tickets, err :=
+		ticketUsecase.GetMyTickets(
+			userID,
+		)
 
 	if err != nil {
 
@@ -93,14 +101,13 @@ func GetMyTickets(c *gin.Context) {
 // @Summary Получить все бронирования
 // @Description Список всех билетов для администратора
 // @Tags admin
-// @Security BearerAuth
 // @Produce json
 // @Success 200 {array} repositories.AdminTicket
 // @Router /admin/bookings [get]
 func GetAdminBookings(c *gin.Context) {
 
 	tickets, err :=
-		repositories.GetAllTicketsForAdmin()
+		ticketUsecase.GetAdminBookings()
 
 	if err != nil {
 

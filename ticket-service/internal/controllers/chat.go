@@ -1,11 +1,16 @@
 package controllers
 
 import (
-	"artticket-backend/internal/infrastructure"
 	"log"
+
+	"artticket-backend/internal/infrastructure"
+	"artticket-backend/internal/usecases"
 
 	"github.com/gin-gonic/gin"
 )
+
+var chatUsecase =
+	usecases.NewChatUsecase()
 
 // ChatWebSocket godoc
 // @Summary WebSocket чат поддержки
@@ -31,16 +36,13 @@ func ChatWebSocket(c *gin.Context) {
 		Conn: conn,
 	}
 
-	infrastructure.Clients[client] = true
+	chatUsecase.AddClient(client)
 
 	defer func() {
 
 		conn.Close()
 
-		delete(
-			infrastructure.Clients,
-			client,
-		)
+		chatUsecase.RemoveClient(client)
 	}()
 
 	for {
@@ -51,14 +53,13 @@ func ChatWebSocket(c *gin.Context) {
 
 			log.Println(err)
 
-			delete(
-				infrastructure.Clients,
-				client,
-			)
+			chatUsecase.RemoveClient(client)
 
 			break
 		}
 
-		infrastructure.Broadcast <- message
+		chatUsecase.BroadcastMessage(
+			message,
+		)
 	}
 }
