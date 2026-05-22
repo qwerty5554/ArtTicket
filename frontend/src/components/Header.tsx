@@ -12,10 +12,16 @@ import chatIcon from "../assets/images/chat.png";
 import logoutIcon from "../assets/images/logout.png";
 import homeIcon from "../assets/images/home.png";
 
+import { useAuthStore } from "../store/authStore";
+
 export const Header = () => {
+
   const navigate = useNavigate();
   const location = useLocation();
-  const isAuth = localStorage.getItem("isAuth");
+
+  // Zustand
+  const isAuth = useAuthStore((state) => state.isAuth);
+  const logout = useAuthStore((state) => state.logout);
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -24,11 +30,14 @@ export const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   const handleSearch = (value: string) => {
+
     setQuery(value);
 
     if (!value.trim()) {
+
       setResults([]);
       setShow(false);
+
       return;
     }
 
@@ -38,6 +47,15 @@ export const Header = () => {
 
     setResults(filtered);
     setShow(true);
+  };
+
+  const handleLogout = () => {
+
+    logout();
+
+    localStorage.removeItem("currentUser");
+
+    window.location.href = "/";
   };
 
   return (
@@ -51,9 +69,11 @@ export const Header = () => {
             onClick={() => navigate("/")}
           >
             <img src={logo} className="h-8 md:h-10" />
+
             <span className="text-lg md:text-xl font-semibold">
               ArtTicket
             </span>
+
           </div>
 
           <div className="hidden md:flex items-center gap-6 flex-1 justify-end relative">
@@ -67,8 +87,13 @@ export const Header = () => {
                 value={query}
                 onChange={(e) => handleSearch(e.target.value)}
                 onKeyDown={(e) => {
+
                   if (e.key === "Enter") {
-                    navigate("/search", { state: { query } });
+
+                    navigate("/search", {
+                      state: { query }
+                    });
+
                     setShow(false);
                   }
                 }}
@@ -77,20 +102,32 @@ export const Header = () => {
               />
 
               {show && results.length > 0 && (
+
                 <div className="absolute top-14 left-0 w-full bg-white rounded-2xl shadow-xl overflow-hidden border">
 
                   {results.map((item, i) => (
+
                     <div
                       key={i}
                       onClick={() => {
-                        navigate(item.route, { state: item.data });
+
+                        navigate(item.route, {
+                          state: item.data
+                        });
+
                         setShow(false);
                         setQuery("");
                       }}
                       className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
                     >
-                      <p className="text-sm">{item.title}</p>
-                      <p className="text-xs text-gray-400">{item.type}</p>
+                      <p className="text-sm">
+                        {item.title}
+                      </p>
+
+                      <p className="text-xs text-gray-400">
+                        {item.type}
+                      </p>
+
                     </div>
                   ))}
 
@@ -100,58 +137,64 @@ export const Header = () => {
             </div>
 
             {!isAuth ? (
+
               <button
                 onClick={() => setOpen(true)}
                 className="bg-[#8B2635] text-white px-5 py-2 rounded-xl text-sm"
               >
                 Войти
               </button>
+
             ) : (
+
               <div className="flex items-center gap-6 text-sm text-gray-600">
 
                 <div
-  onClick={() =>
-    navigate(
-      location.pathname === "/profile"
-        ? "/"
-        : "/profile"
-    )
-  }
-  className="cursor-pointer"
->
+                  onClick={() =>
+                    navigate(
+                      location.pathname === "/profile"
+                        ? "/"
+                        : "/profile"
+                    )
+                  }
+                  className="cursor-pointer"
+                >
 
-  <img
-    src={
-      location.pathname === "/profile"
-        ? homeIcon
-        : profileIcon
-    }
-    className="w-4 h-4 inline"
-  />
+                  <img
+                    src={
+                      location.pathname === "/profile"
+                        ? homeIcon
+                        : profileIcon
+                    }
+                    className="w-4 h-4 inline"
+                  />
 
-  {location.pathname === "/profile"
-    ? " Главная"
-    : " Профиль"}
+                  {location.pathname === "/profile"
+                    ? " Главная"
+                    : " Профиль"}
 
-</div>
+                </div>
 
                 <button
                   onClick={() => navigate("/support")}
                   className="flex items-center gap-2 hover:text-black transition"
                 >
+
                   <img src={chatIcon} className="w-4 h-4" />
+
                   Чат
+
                 </button>
 
                 <button
-                  onClick={() => {
-                    localStorage.clear();
-                    window.location.href = "/";
-                  }}
+                  onClick={handleLogout}
                   className="flex items-center gap-2 hover:text-black transition"
                 >
+
                   <img src={logoutIcon} className="w-4 h-4" />
+
                   Выйти
+
                 </button>
 
               </div>
@@ -169,6 +212,7 @@ export const Header = () => {
 
         {/* мобильное меню */}
         {mobileMenu && (
+
           <div className="md:hidden px-4 pb-4 bg-white border-t">
 
             <div className="flex items-center gap-3 bg-[#F3F3F3] px-4 py-3 rounded-2xl mb-4 mt-4 relative">
@@ -185,20 +229,33 @@ export const Header = () => {
             </div>
 
             {show && results.length > 0 && (
+
               <div className="bg-white rounded-2xl shadow mb-4 overflow-hidden border">
 
                 {results.map((item, i) => (
+
                   <div
                     key={i}
                     onClick={() => {
-                      navigate(item.route, { state: item.data });
+
+                      navigate(item.route, {
+                        state: item.data
+                      });
+
                       setShow(false);
                       setMobileMenu(false);
                     }}
                     className="px-4 py-3 border-b last:border-b-0"
                   >
-                    <p className="text-sm">{item.title}</p>
-                    <p className="text-xs text-gray-400">{item.type}</p>
+
+                    <p className="text-sm">
+                      {item.title}
+                    </p>
+
+                    <p className="text-xs text-gray-400">
+                      {item.type}
+                    </p>
+
                   </div>
                 ))}
 
@@ -206,8 +263,10 @@ export const Header = () => {
             )}
 
             {!isAuth ? (
+
               <button
                 onClick={() => {
+
                   setOpen(true);
                   setMobileMenu(false);
                 }}
@@ -215,7 +274,9 @@ export const Header = () => {
               >
                 Войти
               </button>
+
             ) : (
+
               <div className="flex flex-col gap-3">
 
                 <div
@@ -248,19 +309,22 @@ export const Header = () => {
                   onClick={() => navigate("/support")}
                   className="flex items-center gap-3 text-left"
                 >
+
                   <img src={chatIcon} className="w-4 h-4" />
+
                   Чат
+
                 </button>
 
                 <button
-                  onClick={() => {
-                    localStorage.clear();
-                    window.location.href = "/";
-                  }}
+                  onClick={handleLogout}
                   className="flex items-center gap-3 text-left text-red-600"
                 >
+
                   <img src={logoutIcon} className="w-4 h-4" />
+
                   Выйти
+
                 </button>
 
               </div>
@@ -271,7 +335,9 @@ export const Header = () => {
 
       </header>
 
-      {open && <AuthModal onClose={() => setOpen(false)} />}
+      {open && (
+        <AuthModal onClose={() => setOpen(false)} />
+      )}
     </>
   );
 };

@@ -24,6 +24,13 @@ export default function TicketBookingPage() {
     place: "Не выбрано",
   };
 
+  const adultPrice = Number(
+  exhibition?.price?.replace("₽", "")
+    .trim()
+) || 600;
+
+const childPrice = 400;
+
   // Шаг
   const [step, setStep] = useState(1);
 
@@ -77,7 +84,8 @@ export default function TicketBookingPage() {
     (new Date(year, monthIndex, 1).getDay() + 6) % 7;
 
   const total =
-    adult * 600 + child * 400;
+  adult * adultPrice +
+  child * childPrice;
 
   // Смена месяца
   const changeMonth = (dir: number) => {
@@ -671,7 +679,7 @@ export default function TicketBookingPage() {
                     <p>Взрослый</p>
 
                     <p className="text-xs text-gray-400">
-                      600 ₽
+                      {adultPrice} ₽
                     </p>
                   </div>
 
@@ -944,7 +952,7 @@ export default function TicketBookingPage() {
             </span>
 
             <span>
-              {adult * 600} ₽
+              {adult * adultPrice} ₽
             </span>
 
           </div>

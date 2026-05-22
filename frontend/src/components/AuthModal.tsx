@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useAuthStore } from "../store/authStore";
 
 type Props = {
   onClose: () => void;
 };
 
 export const AuthModal = ({ onClose }: Props) => {
+
+  // Zustand
+  const loginStore = useAuthStore((state) => state.login);
 
   const [tab, setTab] = useState<"login" | "register">("login");
 
@@ -80,12 +84,13 @@ export const AuthModal = ({ onClose }: Props) => {
         return;
       }
 
-      // токен
-      localStorage.setItem(
-        "token",
-        data.token
+      // Zustand login
+      loginStore(
+        data.token,
+        data.user.role
       );
 
+      // current user
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
@@ -95,16 +100,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
           lastName: data.user.last_name,
         })
-      );
-
-      localStorage.setItem(
-        "isAuth",
-        "true"
-      );
-
-      localStorage.setItem(
-        "role",
-        data.user.role
       );
 
       onClose();
@@ -175,9 +170,11 @@ export const AuthModal = ({ onClose }: Props) => {
       loginData.password === "Password1!"
     ) {
 
-      localStorage.setItem("isAuth", "true");
-
-      localStorage.setItem("role", "admin");
+      // Zustand
+      loginStore(
+        "admin-token",
+        "admin"
+      );
 
       window.location.href = "/admin";
 
@@ -207,18 +204,35 @@ export const AuthModal = ({ onClose }: Props) => {
       // ошибки
       if (!response.ok) {
 
-        setLoginError(
-          data.error || "Неверный email или пароль"
-        );
+        let errorMessage =
+          "Неверный email или пароль";
+
+        if (
+          data.error?.includes("no rows")
+        ) {
+          errorMessage =
+            "Пользователь не найден";
+        }
+
+        if (
+          data.error?.includes("hashedPassword")
+        ) {
+          errorMessage =
+            "Неверный пароль";
+        }
+
+        setLoginError(errorMessage);
 
         return;
       }
 
-      localStorage.setItem(
-        "token",
-        data.token
+      // Zustand login
+      loginStore(
+        data.token,
+        data.user.role
       );
 
+      // current user
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
@@ -228,16 +242,6 @@ export const AuthModal = ({ onClose }: Props) => {
 
           lastName: data.user.last_name,
         })
-      );
-
-      localStorage.setItem(
-        "isAuth",
-        "true"
-      );
-
-      localStorage.setItem(
-        "role",
-        data.user.role
       );
 
       onClose();
@@ -276,22 +280,20 @@ export const AuthModal = ({ onClose }: Props) => {
 
           <button
             onClick={() => setTab("login")}
-            className={`pb-2 ${
-              tab === "login"
+            className={`pb-2 ${tab === "login"
                 ? "border-b-2 border-white"
                 : "opacity-70"
-            }`}
+              }`}
           >
             Вход
           </button>
 
           <button
             onClick={() => setTab("register")}
-            className={`pb-2 ${
-              tab === "register"
+            className={`pb-2 ${tab === "register"
                 ? "border-b-2 border-white"
                 : "opacity-70"
-            }`}
+              }`}
           >
             Регистрация
           </button>
@@ -417,6 +419,7 @@ export const AuthModal = ({ onClose }: Props) => {
               </div>
 
             </div>
+
             <div>
 
               <p className="text-xs mb-1">
